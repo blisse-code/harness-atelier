@@ -1,0 +1,2 @@
+*.md.tmpl linguist-language=Markdown
+*.svg linguist-generated=true

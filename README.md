@@ -5,7 +5,7 @@
 <p align="center">
   <a href="https://github.com/blisse-code/harness-atelier/actions/workflows/evals.yml"><img src="https://github.com/blisse-code/harness-atelier/actions/workflows/evals.yml/badge.svg" alt="evals"></a>
   <img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT licence">
-  <img src="https://img.shields.io/badge/python-3.8%2B%20stdlib%20only-informational" alt="Python 3.8+, standard library only">
+  <img src="https://img.shields.io/badge/python-3.9%2B%20stdlib%20only-informational" alt="Python 3.9+, standard library only">
 </p>
 
 **Harness Atelier is a Claude skill that builds the harness around the AI for a designer or design team.** It interviews you about one real project, shows you a one-page map of the harness for sign-off, then generates and tests a working system: a short instruction map, workflow skills, an independent reviewer agent, hooks, structured records, deterministic checks, a confidentiality guard and a status dashboard. It works for agencies and studios, solo freelancers and in-house product teams.
@@ -37,7 +37,7 @@ Download `harness-atelier.skill` from the [latest release](https://github.com/bl
 
 Copy `skills/harness-atelier/` into `~/.claude/skills/` (personal) or `.claude/skills/` in a project.
 
-Requirements: Python 3.8 or newer. No packages to install: every script uses the standard library.
+Requirements: Python 3.9 or newer (the python3 on older Macs is fine). No packages to install: every script uses the standard library.
 
 ## Use it
 
