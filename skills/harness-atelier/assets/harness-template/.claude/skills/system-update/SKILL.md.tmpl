@@ -1,0 +1,14 @@
+---
+name: system-update
+description: Register an approved component, token or pattern into this harness's design system - system-log row, token values mirrored from the source, and the component contract with its "must never become" boundary, all in one pass. Use when a component or value gets approved, when someone says "add this to the system", or when the sensors flag a value that isn't registered.
+---
+
+# System update
+
+The system grows only from approved work, and registration happens in one pass, because a log entry without a contract is how the same button gets rebuilt three ways.
+
+1. **Confirm the approval** exists in `records/approvals.md`. No approval, no entry: say what's missing.
+2. **Read the real values from the source of truth** (the design file's variables, or the code). Never type a value from a screenshot or from memory.
+3. **In the same pass:** add the row to `system/system-log.md`; add or update values in `system/tokens.md`; write the entry in `system/components.md` (job, must never become, variants and states, tokens used, link, entered). Patterns go in `system/patterns.md` with any intentional exception and its reason.
+4. **Check for near-duplicates** already registered. If the new item overlaps an existing one, stop and ask which survives; don't keep both silently.
+5. Log a decision in `docs/decisions.md` if the item changes how something is used.

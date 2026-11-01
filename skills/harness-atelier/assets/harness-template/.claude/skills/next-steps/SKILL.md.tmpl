@@ -1,0 +1,14 @@
+---
+name: next-steps
+description: Work out what the team or a person should do next from this harness's records - open feedback, change requests, failed gates, blocked or overdue tasks, timeline - and write owned, dated tasks that fit the timeline. Use when someone asks "what should I do next", "what's my day", "plan the week", "where are we", after any review round, feedback batch or change request.
+---
+
+# Next steps
+
+Plans built from memory miss things; plans built from the records can be checked. Every action here cites the record that caused it.
+
+1. **Gather inputs** from the records: open and unplanned feedback, pending change requests, the latest `not ready` gate rows, blocked and overdue tasks, Approval rounds with Changes requested, open `[[ASK]]` markers, and the current stage in `context/timeline.md`. Run `python3 scripts/harness_check.py --quick` for the same view.
+2. **Draft actions**: one per input or a clear group of inputs. Each has an owner (a named owner wins; otherwise route by role in `CLAUDE.md`), a due date, and the IDs it answers.
+3. **Check the fit**: every due date sits inside its stage's window in `context/timeline.md`, after anything it depends on, and not before today. If it can't fit, say which stage is at risk and why; don't quietly compress.
+4. **Write** the actions as rows in `records/tasks.md` (Source cites the inputs) and mark the feedback rows planned.
+5. **Reply** with the person's next three things, in order, and anything only a human can unblock. Keep it load-aware: a plan that needs heroics is a timeline problem to raise, not a plan.

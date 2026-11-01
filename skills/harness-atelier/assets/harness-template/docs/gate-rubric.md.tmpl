@@ -1,0 +1,51 @@
+# Gate rubric
+
+What the `gate` skill and `evaluator` agent check, before any person reviews work. Sensors (`scripts/harness_check.py`) run first; this rubric is the judgement layer on top. The rubric is rebuilt for every run from the current scope, ux-context, rules and open feedback, so it grows as the project does.
+
+## Every deliverable
+
+| Check | Fail when | Evidence to cite |
+|---|---|---|
+| Scope fit | It answers a different question than `context/scope.md` | The scope line it drifts from |
+| Feedback fit | Open feedback addressed to this deliverable is ignored, or resolved feedback is reopened | Feedback ID |
+| Committed decisions | It contradicts a Committed row in `docs/decisions.md` | Decision ID |
+| Done-criteria | It misses what was agreed as "done" before the work started | The criterion |
+
+## Research deliverables
+
+| Check | Fail when | Evidence to cite |
+|---|---|---|
+| Traceability | An insight has no source in `work/research/` | Insight ID |
+| Goal fit | It drifts from the research question in the brief | Brief line |
+| Constraint distilled | A load-bearing finding is not written into `context/ux-context.md` as a constraint | Insight ID |
+| Honest confidence | A claim is stated more strongly than its evidence supports | Claim and source |
+
+## Design deliverables
+
+| Check | Fail when | Evidence to cite |
+|---|---|---|
+| Mental model first | Screens exist with no agreed model / IA behind them | Missing file |
+| Research fit | A design choice contradicts a finding in `context/ux-context.md` | Constraint line |
+| Rails | A value or component is not in `system/` | Element and value |
+| Component boundaries | A component is used for something its "Must never become" forbids | Component name |
+| Heuristics | Clear usability heuristic breach (visibility of status, error prevention, recognition over recall…) | Screen and element |
+| Accessibility | Contrast, target size, focus order, labels, motion | Element and measured value |
+| States | Missing empty / loading / error / success / edge states | Screen |
+| Taste | Generic, default-looking output: it would still work with a competitor's name swapped in | What makes it generic |
+
+Weighting: judge **coherence of the whole flow** and **distinctiveness** at least as hard as craft. Models produce tidy craft by default; what they miss is whether the experience hangs together and belongs to this product.
+
+## Findings format
+
+| Check | Severity (fail/warn) | Evidence | Fix or flag |
+|---|---|---|---|
+
+Then one verdict line: `Ready for review` or `N fails: not ready`. The evaluator reports; it does not fix.
+
+## Project-specific criteria
+
+Standards named at setup, then anything `context/` and `records/feedback.md` surface later. Date each addition. A comment reviewers make twice belongs here.
+
+| Check | Fail when | Evidence to cite |
+|---|---|---|
+{{STANDARDS_ROWS}}

@@ -1,0 +1,22 @@
+{
+  "name": "harness-atelier",
+  "owner": {
+    "name": "Blisse Code",
+    "url": "https://github.com/blisse-code"
+  },
+  "metadata": {
+    "description": "A Claude skill that builds a working AI harness for designers and design teams.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "harness-atelier",
+      "description": "Interview a designer or team about how they really work, map the harness, then generate and verify rails, memory, workflow skills, checks and a learning loop.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/harness-atelier"
+      ]
+    }
+  ]
+}

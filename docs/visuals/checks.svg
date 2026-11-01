@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-labelledby="t d">
+<title id="t">The check ladder: sensors, evaluator, people</title>
+<desc id="d">Pieces of work move right through three gates. Some stop at the deterministic sensors, some at the separate evaluator agent, and only clean work reaches the human reviewers.</desc>
+<style>
+  :root, svg { --bg:#fbfaf7; --panel:#ffffff; --ink:#1d1d1b; --muted:#6b6a66; --line:#e2dfd7;
+    --accent:#2f5bd3; --accent-soft:#e6ecfb; --ok:#1e7a44; --ok-soft:#e3f3e9; --warn:#a36500; --warn-soft:#fdf0d6;
+    --fail:#b3261e; --fail-soft:#fbe6e3; }
+  @media (prefers-color-scheme: dark) {
+    :root, svg { --bg:#0d1117; --panel:#161b22; --ink:#e6edf3; --muted:#8d96a0; --line:#30363d;
+      --accent:#7ea2ff; --accent-soft:#1b2a4d; --ok:#56d38a; --ok-soft:#12301f; --warn:#f2c26b; --warn-soft:#3a2c10;
+      --fail:#ff8a80; --fail-soft:#3d1a17; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  text { font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: var(--ink); }
+  .muted { fill: var(--muted); }
+  .bg { fill: var(--bg); }
+
+  .gate { fill:var(--panel); stroke:var(--line); stroke-width:1.5; }
+  .gname { font-size:19px; font-weight:650; }
+  .gsub { font-size:14px; }
+  .gdet { font-size:13px; }
+  .item { animation-duration:9.0s; animation-iteration-count:infinite; animation-timing-function:cubic-bezier(.5,0,.3,1); animation-fill-mode:backwards; }
+  .ok { fill:var(--ok); } .warn { fill:var(--warn); } .fail { fill:var(--fail); }
+  .h { font-size:22px; font-weight:700; }
+  .bar { fill:var(--accent); opacity:.85; }
+  @keyframes go0 { 0% { transform:translateX(0); opacity:0; } 6% { opacity:1; } 55% { transform:translateX(230px); opacity:1; } 80% { transform:translateX(230px); opacity:0.25; } 100% { transform:translateX(230px); opacity:0; } }
+  @keyframes go1 { 0% { transform:translateX(0); opacity:0; } 6% { opacity:1; } 55% { transform:translateX(1040px); opacity:1; } 80% { transform:translateX(1040px); opacity:1; } 100% { transform:translateX(1040px); opacity:0; } }
+  @keyframes go2 { 0% { transform:translateX(0); opacity:0; } 6% { opacity:1; } 55% { transform:translateX(540px); opacity:1; } 80% { transform:translateX(540px); opacity:0.25; } 100% { transform:translateX(540px); opacity:0; } }
+  @keyframes go3 { 0% { transform:translateX(0); opacity:0; } 6% { opacity:1; } 55% { transform:translateX(1040px); opacity:1; } 80% { transform:translateX(1040px); opacity:1; } 100% { transform:translateX(1040px); opacity:0; } }
+  @keyframes go4 { 0% { transform:translateX(0); opacity:0; } 6% { opacity:1; } 55% { transform:translateX(230px); opacity:1; } 80% { transform:translateX(230px); opacity:0.25; } 100% { transform:translateX(230px); opacity:0; } }
+  @keyframes go5 { 0% { transform:translateX(0); opacity:0; } 6% { opacity:1; } 55% { transform:translateX(1040px); opacity:1; } 80% { transform:translateX(1040px); opacity:1; } 100% { transform:translateX(1040px); opacity:0; } }
+</style>
+<rect class="bg" width="1200" height="400" rx="16"/>
+
+<text x="56" y="56" class="h">Problems stop at the cheapest gate that can catch them</text>
+<text x="56" y="80" class="gsub muted">red: caught by a script · amber: caught by the evaluator · green: reaches people, ready for review</text>
+<rect x="330" y="96" width="14" height="206" rx="7" class="bar"/><text x="337" y="330" text-anchor="middle" class="gname">Sensors</text><text x="337" y="350" text-anchor="middle" class="gsub muted">deterministic, cheap</text><text x="337" y="372" text-anchor="middle" class="gdet muted">placeholders · schema · leaks · off-system values</text><rect x="640" y="96" width="14" height="206" rx="7" class="bar"/><text x="647" y="330" text-anchor="middle" class="gname">Evaluator</text><text x="647" y="350" text-anchor="middle" class="gsub muted">a separate agent</text><text x="647" y="372" text-anchor="middle" class="gdet muted">scope · research fit · rails · a11y · taste</text><rect x="950" y="96" width="14" height="206" rx="7" class="bar"/><text x="957" y="330" text-anchor="middle" class="gname">People</text><text x="957" y="350" text-anchor="middle" class="gsub muted">judgement only</text><text x="957" y="372" text-anchor="middle" class="gdet muted">lead → leadership → client</text>
+<rect x="70" y="109" width="18" height="18" rx="4" class="item fail" style="animation-name:go0;animation-delay:0.00s;transform:translateX(230px)"/><rect x="70" y="141" width="18" height="18" rx="4" class="item ok" style="animation-name:go1;animation-delay:0.35s;transform:translateX(1040px)"/><rect x="70" y="173" width="18" height="18" rx="4" class="item warn" style="animation-name:go2;animation-delay:0.70s;transform:translateX(540px)"/><rect x="70" y="205" width="18" height="18" rx="4" class="item ok" style="animation-name:go3;animation-delay:1.05s;transform:translateX(1040px)"/><rect x="70" y="237" width="18" height="18" rx="4" class="item fail" style="animation-name:go4;animation-delay:1.40s;transform:translateX(230px)"/><rect x="70" y="269" width="18" height="18" rx="4" class="item ok" style="animation-name:go5;animation-delay:1.75s;transform:translateX(1040px)"/>
+
+</svg>

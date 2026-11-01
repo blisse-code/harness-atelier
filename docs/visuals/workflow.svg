@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 250" width="1200" height="250" role="img" aria-labelledby="t d">
+<title id="t">The seven phases of a harness build</title>
+<desc id="d">Look, Interview, Map, Generate, Tailor, Verify, Hand over. A progress line fills from left to right and each phase lights up in turn. Map is marked as the cheapest moment to correct the structure.</desc>
+<style>
+  :root, svg { --bg:#fbfaf7; --panel:#ffffff; --ink:#1d1d1b; --muted:#6b6a66; --line:#e2dfd7;
+    --accent:#2f5bd3; --accent-soft:#e6ecfb; --ok:#1e7a44; --ok-soft:#e3f3e9; --warn:#a36500; --warn-soft:#fdf0d6;
+    --fail:#b3261e; --fail-soft:#fbe6e3; }
+  @media (prefers-color-scheme: dark) {
+    :root, svg { --bg:#0d1117; --panel:#161b22; --ink:#e6edf3; --muted:#8d96a0; --line:#30363d;
+      --accent:#7ea2ff; --accent-soft:#1b2a4d; --ok:#56d38a; --ok-soft:#12301f; --warn:#f2c26b; --warn-soft:#3a2c10;
+      --fail:#ff8a80; --fail-soft:#3d1a17; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  text { font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: var(--ink); }
+  .muted { fill: var(--muted); }
+  .bg { fill: var(--bg); }
+
+  .track { stroke:var(--line); stroke-width:4; stroke-linecap:round; }
+  .fill { stroke:var(--accent); stroke-width:4; stroke-linecap:round; stroke-dasharray:1020; stroke-dashoffset:0;
+          animation: grow 14.0s ease-in-out infinite; }
+  .pc { fill:var(--accent); stroke:var(--accent); stroke-width:2; animation: light 14.0s ease-in-out infinite backwards; }
+  .pn { font-size:18px; font-weight:700; fill:var(--panel); animation: lightn 14.0s ease-in-out infinite backwards; }
+  .key .pc { stroke-width:5; }
+  .pname { font-size:19px; font-weight:650; }
+  .psub { font-size:14px; }
+  .cap { font-size:15px; font-weight:600; fill:var(--accent); }
+  @keyframes grow { 0% { stroke-dashoffset:1020; } 70% { stroke-dashoffset:0; } 92% { stroke-dashoffset:0; opacity:1; } 100% { stroke-dashoffset:0; opacity:0; } }
+  @keyframes light { 0% { fill:var(--panel); } 6% { fill:var(--accent); } 92% { fill:var(--accent); } 100% { fill:var(--panel); } }
+  @keyframes lightn { 0% { fill:var(--accent); } 6% { fill:var(--panel); } 92% { fill:var(--panel); } 100% { fill:var(--accent); } }
+</style>
+<rect class="bg" width="1200" height="250" rx="16"/>
+
+<text x="66" y="52" class="pname">Seven phases, one build</text>
+<text x="430.0" y="84" text-anchor="middle" class="cap">cheapest moment to correct</text>
+<line x1="90" y1="128" x2="1110" y2="128" class="track"/>
+<line x1="90" y1="128" x2="1110" y2="128" class="fill"/>
+<g class="ph"><circle cx="90.0" cy="128" r="24" class="pc" style="animation-delay:0.00s"/><text x="90.0" y="135" text-anchor="middle" class="pn" style="animation-delay:0.00s">0</text><text x="90.0" y="190" text-anchor="middle" class="pname">Look</text><text x="90.0" y="212" text-anchor="middle" class="psub muted">inventory first</text></g><g class="ph"><circle cx="260.0" cy="128" r="24" class="pc" style="animation-delay:1.63s"/><text x="260.0" y="135" text-anchor="middle" class="pn" style="animation-delay:1.63s">1</text><text x="260.0" y="190" text-anchor="middle" class="pname">Interview</text><text x="260.0" y="212" text-anchor="middle" class="psub muted">a real project</text></g><g class="ph key"><circle cx="430.0" cy="128" r="24" class="pc" style="animation-delay:3.27s"/><text x="430.0" y="135" text-anchor="middle" class="pn" style="animation-delay:3.27s">2</text><text x="430.0" y="190" text-anchor="middle" class="pname">Map</text><text x="430.0" y="212" text-anchor="middle" class="psub muted">sign-off here</text></g><g class="ph"><circle cx="600.0" cy="128" r="24" class="pc" style="animation-delay:4.90s"/><text x="600.0" y="135" text-anchor="middle" class="pn" style="animation-delay:4.90s">3</text><text x="600.0" y="190" text-anchor="middle" class="pname">Generate</text><text x="600.0" y="212" text-anchor="middle" class="psub muted">never overwrites</text></g><g class="ph"><circle cx="770.0" cy="128" r="24" class="pc" style="animation-delay:6.53s"/><text x="770.0" y="135" text-anchor="middle" class="pn" style="animation-delay:6.53s">4</text><text x="770.0" y="190" text-anchor="middle" class="pname">Tailor</text><text x="770.0" y="212" text-anchor="middle" class="psub muted">failures → fixes</text></g><g class="ph"><circle cx="940.0" cy="128" r="24" class="pc" style="animation-delay:8.17s"/><text x="940.0" y="135" text-anchor="middle" class="pn" style="animation-delay:8.17s">5</text><text x="940.0" y="190" text-anchor="middle" class="pname">Verify</text><text x="940.0" y="212" text-anchor="middle" class="psub muted">run, don't claim</text></g><g class="ph"><circle cx="1110.0" cy="128" r="24" class="pc" style="animation-delay:9.80s"/><text x="1110.0" y="135" text-anchor="middle" class="pn" style="animation-delay:9.80s">6</text><text x="1110.0" y="190" text-anchor="middle" class="pname">Hand over</text><text x="1110.0" y="212" text-anchor="middle" class="psub muted">open questions</text></g>
+
+</svg>

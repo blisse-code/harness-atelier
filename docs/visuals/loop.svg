@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="1200" height="360" role="img" aria-labelledby="t d">
+<title id="t">The learning loop: every miss becomes a permanent fix</title>
+<desc id="d">A rotating loop labelled 'a miss becomes a fix, not a reminder' beside five rows that light up in turn: a repeated comment becomes a rule, a repeated one-off UI a component, a greppable problem a sensor, a judgement problem a rubric line, and re-explained context a line in the brief.</desc>
+<style>
+  :root, svg { --bg:#fbfaf7; --panel:#ffffff; --ink:#1d1d1b; --muted:#6b6a66; --line:#e2dfd7;
+    --accent:#2f5bd3; --accent-soft:#e6ecfb; --ok:#1e7a44; --ok-soft:#e3f3e9; --warn:#a36500; --warn-soft:#fdf0d6;
+    --fail:#b3261e; --fail-soft:#fbe6e3; }
+  @media (prefers-color-scheme: dark) {
+    :root, svg { --bg:#0d1117; --panel:#161b22; --ink:#e6edf3; --muted:#8d96a0; --line:#30363d;
+      --accent:#7ea2ff; --accent-soft:#1b2a4d; --ok:#56d38a; --ok-soft:#12301f; --warn:#f2c26b; --warn-soft:#3a2c10;
+      --fail:#ff8a80; --fail-soft:#3d1a17; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  text { font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: var(--ink); }
+  .muted { fill: var(--muted); }
+  .bg { fill: var(--bg); }
+
+  .circ { fill:none; stroke:var(--line); stroke-width:10; }
+  .circflow { fill:none; stroke:var(--accent); stroke-width:10; stroke-linecap:round; stroke-dasharray:90 450;
+              transform-origin:200px 210px; animation: rot 6s linear infinite; }
+  .ctext { font-size:20px; font-weight:700; }
+  .csub { font-size:14px; }
+  .h { font-size:22px; font-weight:700; }
+  .miss { font-size:16px; }
+  .fix { font-size:16px; font-weight:650; fill:var(--accent); }
+  .arrow { font-size:18px; }
+  .rowbg { fill:var(--accent-soft); opacity:0; animation: hl 12.5s ease-in-out infinite; }
+  @keyframes rot { to { transform: rotate(360deg); } }
+  @keyframes hl { 0% { opacity:0; } 4% { opacity:1; } 18% { opacity:1; } 24% { opacity:0; } 100% { opacity:0; } }
+</style>
+<rect class="bg" width="1200" height="360" rx="16"/>
+
+<circle cx="200" cy="210" r="86" class="circ"/>
+<circle cx="200" cy="210" r="86" class="circflow"/>
+<text x="200" y="206" text-anchor="middle" class="ctext">a miss</text>
+<text x="200" y="230" text-anchor="middle" class="csub muted">becomes a fix,</text>
+<text x="200" y="248" text-anchor="middle" class="csub muted">not a reminder</text>
+<text x="420" y="56" class="h">The learning loop</text>
+<g class="row" style="animation-delay:0.00s"><rect x="420" y="86" width="720" height="38" rx="10" class="rowbg" style="animation-delay:0.00s"/><text x="440" y="112" class="miss">Same comment, two review rounds</text><text x="770" y="112" class="arrow muted">→</text><text x="800" y="112" class="fix">a rule in CLAUDE.md or ux-context</text></g><g class="row" style="animation-delay:2.50s"><rect x="420" y="130" width="720" height="38" rx="10" class="rowbg" style="animation-delay:2.50s"/><text x="440" y="156" class="miss">One-off UI built twice</text><text x="770" y="156" class="arrow muted">→</text><text x="800" y="156" class="fix">a component in system/</text></g><g class="row" style="animation-delay:5.00s"><rect x="420" y="174" width="720" height="38" rx="10" class="rowbg" style="animation-delay:5.00s"/><text x="440" y="200" class="miss">A grep could have caught it</text><text x="770" y="200" class="arrow muted">→</text><text x="800" y="200" class="fix">a sensor in harness_check.py</text></g><g class="row" style="animation-delay:7.50s"><rect x="420" y="218" width="720" height="38" rx="10" class="rowbg" style="animation-delay:7.50s"/><text x="440" y="244" class="miss">Only judgement catches it</text><text x="770" y="244" class="arrow muted">→</text><text x="800" y="244" class="fix">a line in the gate rubric</text></g><g class="row" style="animation-delay:10.00s"><rect x="420" y="262" width="720" height="38" rx="10" class="rowbg" style="animation-delay:10.00s"/><text x="440" y="288" class="miss">Someone re-explains context</text><text x="770" y="288" class="arrow muted">→</text><text x="800" y="288" class="fix">a line in the brief or ux-context</text></g>
+
+</svg>

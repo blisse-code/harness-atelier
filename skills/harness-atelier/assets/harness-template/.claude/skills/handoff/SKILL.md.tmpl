@@ -1,0 +1,14 @@
+---
+name: handoff
+description: Ship a deliverable out of this harness - confirm final approval, package it from its source, record the ship, state ownership boundaries, and add reusable output to past work. Use when something is being delivered, sent to a client, handed to engineering or another team, published, or when someone says "ship it", "send it", "hand this over", "final delivery".
+---
+
+# Handoff
+
+Approval and shipping are different events, and a handoff without its context makes the receiver rebuild the reasoning. This skill closes both gaps.
+
+1. **Confirm sign-off:** the deliverable has an Approved row at the final gate in `records/approvals.md`. If not, stop and say which gate is missing.
+2. **Build from source:** export or regenerate the deliverable from its source (`docs/process.md`, "Sources"). Never ship a hand-patched export.
+3. **Package the context with it:** what it is, what was decided and why (decision IDs), what is out of scope and who owns it, known limits and open questions. For engineering: states, edge cases, tokens, acceptance criteria.
+4. **Record** a row in `records/ships.md` citing the approval round.
+5. **Feed the memory:** add reusable output (methods, insights, components) to `records/past-work.md`.

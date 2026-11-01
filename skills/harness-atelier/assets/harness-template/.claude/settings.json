@@ -1,0 +1,20 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {"hooks": [
+        {"type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/scripts/install_git_hooks.sh\" >/dev/null 2>&1; python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/session_start.py\"", "timeout": 60}
+      ]}
+    ],
+    "PreToolUse": [
+      {"matcher": "Write|Edit|MultiEdit",
+       "hooks": [
+        {"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/confidential_guard.py\"", "timeout": 15}
+      ]}
+    ],
+    "Stop": [
+      {"hooks": [
+        {"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/on_stop.py\"", "timeout": 60}
+      ]}
+    ]
+  }
+}

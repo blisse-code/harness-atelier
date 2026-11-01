@@ -1,0 +1,104 @@
+{
+  "_comment": "Filled in from the interview (references/interview.md). Every field the designer did not answer stays null or empty; scaffold.py turns those into visible [[ASK: ...]] markers instead of guessing.",
+  "harness_name": "Lena Studio Master",
+  "owner": "Lena",
+  "context": "solo",
+  "created": "2026-11-01",
+  "team": [
+    {
+      "name": "Lena",
+      "role": "designer"
+    },
+    {
+      "name": "Omar",
+      "role": "researcher"
+    }
+  ],
+  "roles": {
+    "designer": "Everything design, and the client relationship.",
+    "researcher": "Occasional contract research."
+  },
+  "tracks": [
+    "research",
+    "design"
+  ],
+  "stages": [
+    {
+      "id": "intake",
+      "name": "Brief intake",
+      "owner": "lead",
+      "output": "context/brief.md, context/scope.md, context/timeline.md",
+      "done_when": "Lead confirms classification, scope and timeline back to the requester."
+    },
+    {
+      "id": "discover",
+      "name": "Discovery research",
+      "owner": "researcher",
+      "output": "work/research/",
+      "done_when": "Every insight cites a data-collection source."
+    },
+    {
+      "id": "model",
+      "name": "Mental model + IA",
+      "owner": "designer",
+      "output": "work/design/ia.md",
+      "done_when": "Sitemap and intent paths approved at the lead gate."
+    },
+    {
+      "id": "flows",
+      "name": "Flows and screens",
+      "owner": "designer",
+      "output": "Figma (linked in work/design/README.md)",
+      "done_when": "Gate passes with zero fails."
+    },
+    {
+      "id": "prototype",
+      "name": "Prototype + test",
+      "owner": "designer",
+      "output": "work/prototypes/",
+      "done_when": "Test findings logged as insights."
+    },
+    {
+      "id": "handoff",
+      "name": "Delivery + handoff",
+      "owner": "lead",
+      "output": "records/ships.md",
+      "done_when": "Ship row written with the approval round it shipped from."
+    }
+  ],
+  "approval_chain": [
+    "Lena",
+    "client founder"
+  ],
+  "tools": {
+    "figma": true,
+    "drive": true,
+    "git": true,
+    "hosting": "vercel"
+  },
+  "design_system": {
+    "source": "figma",
+    "speed": "new"
+  },
+  "confidential_terms": [
+    "day rate"
+  ],
+  "known_failures": [
+    "Client feedback from round 1 arrived while we were on round 3 and got lost.",
+    "Juniors invented new spacing values instead of using the scale."
+  ],
+  "deliverable_kinds": [
+    "journey map",
+    "wireframes",
+    "prototype",
+    "stakeholder deck"
+  ],
+  "autonomy": "per-item",
+  "standards": [
+    "WCAG 2.2 AA"
+  ],
+  "confidential_terms_local": [
+    "CS:Finch"
+  ],
+  "role": "master"
+}

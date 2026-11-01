@@ -1,0 +1,21 @@
+# {{HARNESS_NAME}}
+
+A working harness for design work with AI: the rules, memory, workflows and checks that sit around the AI so every session follows the same process and leaves reusable output behind.
+
+**Owner:** {{OWNER}} · **Context:** {{CONTEXT_LABEL}}
+
+## The five parts
+
+| Part | What it is | Where |
+|---|---|---|
+| **Rails** | What output must stay inside: tokens, components, patterns, ux-context, confidentiality | `system/`, `context/ux-context.md`, `.harness/confidential.txt` |
+| **Memory** | Where truth lives between sessions and people | `context/`, `docs/decisions.md`, `records/handovers.md` |
+| **Moves** | The workflow: stages, skills, agents, hooks | `CLAUDE.md`, `.claude/` |
+| **Checks** | Sensors (deterministic) then the gate (a separate evaluator) | `scripts/harness_check.py`, `.claude/skills/gate/` |
+| **Loop** | How each miss becomes a permanent fix | `docs/evolution.md`, `docs/decisions.md` |
+
+## Start here
+
+- New to it: `docs/onboarding.md`.
+- Status at a glance: `python3 scripts/build_dashboard.py`, then open `dashboard/index.html`.
+- What the AI follows: `CLAUDE.md`.

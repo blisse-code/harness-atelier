@@ -1,0 +1,33 @@
+# Process: the method under each stage
+
+`CLAUDE.md` has the short version. This file holds the detail, so the map stays readable. When a stage changes in practice, change it here first, then log why in `docs/decisions.md`.
+
+## The stages
+
+The short table is in `CLAUDE.md`. For each stage below: what goes in, what comes out, which skill helps, what "done" means. Fill in each stage from how the team actually worked on a real project, not from how it should work in theory.
+
+<!-- status: seed — the interview fills one section per stage; delete this line when every stage has a section -->
+
+{{STAGE_SECTIONS}}
+
+## Ordering rules that hold across stages
+
+1. **Model before structure, structure before screens.** Mental model and intent paths → information architecture → flows → screens. Starting at screens bakes in a structure nobody chose.
+2. **Agree "done" before starting.** Before a piece of work begins, write down what will be checked and how (in the task's Source cell or the stage section). The gate then checks against that, not against a mood.
+3. **Explore wide, commit narrow.** Options in progress are labelled **Sketching**; anything chosen is **Committed** and goes in `docs/decisions.md` immediately. A sketch never quietly becomes a constraint.
+4. **Small batches.** One flow, one screen set or one research question at a time through the gate. Large batches hide fails.
+
+## Sources: edit upstream, never the generated thing
+
+| Generated thing | Its real source | Never |
+|---|---|---|
+| HTML prototypes in `work/prototypes/` | The approved design file | Patch the HTML as "the fix"; change the design, regenerate |
+| Decks and reports | The `.md` rationale and synthesis they are built from | Edit the exported deck as the record |
+| `system/tokens.md`, `system/components.md` | {{DS_SOURCE}} | Add a value here that the source doesn't have |
+| Proposed changes from feedback | The feedback row and the note it cites | Propose something the feedback didn't ask for |
+
+## Tools in use
+
+{{TOOLS_LIST}}
+
+When a tool call fails because a connection is missing or signed out, stop and help the person reconnect it. Don't work around it silently.

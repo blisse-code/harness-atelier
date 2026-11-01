@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harness status</title>
+<style>
+  :root {
+    --bg: #f6f5f2; --surface: #ffffff; --ink: #1d1d1b; --muted: #6b6a66; --line: #e4e2dc;
+    --accent: #2f5bd3; --fail: #b3261e; --fail-bg: #fbe9e7; --warn: #8a5a00; --warn-bg: #fdf2dc;
+    --ok: #1e6b3a; --ok-bg: #e5f3e9;
+    --r: 10px; --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px;
+    --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141413; --surface: #1d1d1b; --ink: #ecebe6; --muted: #a09e97; --line: #2f2e2b;
+      --accent: #8aa8ff; --fail: #ff8a80; --fail-bg: #3a1d1a; --warn: #f2c26b; --warn-bg: #36290f;
+      --ok: #7fd49a; --ok-bg: #16301f;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141413; --surface: #1d1d1b; --ink: #ecebe6; --muted: #a09e97; --line: #2f2e2b;
+    --accent: #8aa8ff; --fail: #ff8a80; --fail-bg: #3a1d1a; --warn: #f2c26b; --warn-bg: #36290f;
+    --ok: #7fd49a; --ok-bg: #16301f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 var(--font); }
+  main { max-width: 1080px; margin: 0 auto; padding: var(--s5) var(--s4) var(--s6); }
+  header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s3); align-items: baseline; }
+  h1 { font-size: 22px; margin: 0; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: var(--s6) 0 var(--s3); }
+  .meta { color: var(--muted); font-size: 13px; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--s3); margin-top: var(--s5); }
+  .tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: var(--s4); }
+  .tile b { display: block; font-size: 28px; line-height: 1.1; }
+  .tile span { color: var(--muted); font-size: 13px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: var(--s4); overflow-x: auto; }
+  table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 14px; }
+  td:first-child, th:first-child { white-space: nowrap; }
+  th, td { text-align: left; padding: var(--s2) var(--s3) var(--s2) 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; }
+  tr:last-child td { border-bottom: 0; }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--line); color: var(--muted); }
+  .fail { color: var(--fail); background: var(--fail-bg); }
+  .warn { color: var(--warn); background: var(--warn-bg); }
+  .ok { color: var(--ok); background: var(--ok-bg); }
+  .pipeline { display: flex; gap: var(--s2); flex-wrap: wrap; }
+  .stage { flex: 1 1 140px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: var(--s3); }
+  .stage small { color: var(--muted); display: block; }
+  .empty { color: var(--muted); font-style: italic; }
+  .handover ul { margin: var(--s2) 0 0; padding-left: 18px; }
+  .handover li { margin: 2px 0; }
+  button { font: inherit; background: none; border: 1px solid var(--line); color: var(--ink); border-radius: 6px; padding: 2px 10px; cursor: pointer; }
+  /* Motion: only when the viewer hasn't asked for less. It orients (what loaded, what changed); it never carries information. */
+  @media (prefers-reduced-motion: no-preference) {
+    .tile, .stage, h2, .card { animation: rise .42s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 40ms); }
+    .stage .bar i { transition: width .9s cubic-bezier(.2,.7,.2,1); }
+    .pill.fail { animation: rise .42s both, nudge 2.4s ease-in-out .6s 2; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    @keyframes nudge { 0%, 100% { box-shadow: 0 0 0 0 transparent; } 50% { box-shadow: 0 0 0 4px var(--fail-bg); } }
+  }
+  .stage { display: flex; flex-direction: column; gap: var(--s1); }
+  .stage .bar { height: 4px; border-radius: 2px; background: var(--line); margin-top: auto; overflow: hidden; }
+  .stage .bar i { display: block; height: 100%; width: 0; background: var(--accent); }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div><h1 id="name">Harness status</h1><div class="meta" id="sub"></div></div>
+    <button id="theme" aria-label="Toggle light or dark theme">Theme</button>
+  </header>
+  <div id="app"><p class="empty">No data yet. Run <code>python3 scripts/build_dashboard.py</code>, then reload.</p></div>
+</main>
+<script src="data.js"></script>
+<script>
+(function () {
+  var root = document.documentElement;
+  try { var t = localStorage.getItem("harness-theme"); if (t) root.dataset.theme = t; } catch (e) {}
+  document.getElementById("theme").onclick = function () {
+    var dark = root.dataset.theme ? root.dataset.theme === "dark"
+      : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    root.dataset.theme = dark ? "light" : "dark";
+    try { localStorage.setItem("harness-theme", root.dataset.theme); } catch (e) {}
+  };
+  var D = window.HARNESS; if (!D) return;
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function pill(text) {
+    var t = String(text || "").toLowerCase();
+    var cls = /fail|blocked|not ready|changes requested|at risk/.test(t) ? "fail"
+      : /warn|open|pending|doing|todo|in progress/.test(t) ? "warn"
+      : /done|approved|ready|resolved|accepted|clean/.test(t) ? "ok" : "";
+    return '<span class="pill ' + cls + '">' + esc(text) + "</span>";
+  }
+  function table(rows, cols, pillCols) {
+    if (!rows || !rows.length) return '<p class="empty">Nothing recorded yet.</p>';
+    var h = "<table><thead><tr>" + cols.map(function (c) { return "<th>" + esc(c) + "</th>"; }).join("") + "</tr></thead><tbody>";
+    rows.forEach(function (r) {
+      h += "<tr>" + cols.map(function (c) {
+        return "<td>" + ((pillCols || []).indexOf(c) >= 0 && r[c] ? pill(r[c]) : esc(r[c])) + "</td>";
+      }).join("") + "</tr>";
+    });
+    return h + "</tbody></table>";
+  }
+  function mini(md) {
+    var items = String(md || "").split(/\n/).filter(function (l) { return l.trim(); }).map(function (l) {
+      return esc(l.replace(/^\s*[-*]\s*/, "")).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    });
+    return "<ul>" + items.map(function (i) { return "<li>" + i + "</li>"; }).join("") + "</ul>";
+  }
+  var R = D.records || {}, S = D.summary || {}, sens = D.sensors || {findings: []};
+  document.getElementById("name").textContent = D.harness;
+  document.title = D.harness;
+  document.getElementById("sub").textContent = [D.owner && ("Owner: " + D.owner), "Built " + D.built_at].filter(Boolean).join(" · ");
+  var timeline = (R.timeline && R.timeline.rows) || [];
+  function stageStatus(name) { var r = timeline.filter(function (t) { return t.Stage === name; })[0]; return r ? r.Status : ""; }
+  var h = '<div class="tiles">' + [
+      ["Open tasks", S.tasks_open], ["Blocked", S.tasks_blocked], ["Open feedback", S.feedback_open],
+      ["Pending changes", S.changes_pending], ["Shipped", S.ships],
+      ["Sensor fails", sens.fails || 0]
+    ].map(function (t, i) { return '<div class="tile" style="--i:' + i + '"><b data-n="' + Number(t[1] || 0) + '">' + esc(t[1]) + "</b><span>" + esc(t[0]) + "</span></div>"; }).join("") + "</div>";
+  h += "<h2>Pipeline</h2><div class=\"pipeline\">" + (D.stages || []).map(function (s, i) {
+      var st = stageStatus(s.name);
+      var pct = /^done/i.test(st) ? 100 : /in progress|at risk/i.test(st) ? 50 : 0;
+      return '<div class="stage" style="--i:' + (i + 6) + '"><small>' + (i + 1) + " · " + esc(s.owner) + "</small><b>" + esc(s.name) + "</b><div>" + (st ? pill(st) : "") +
+        '</div><div class="bar" aria-hidden="true"><i data-w="' + pct + '"></i></div></div>';
+    }).join("") + "</div>";
+  h += "<h2>Sensors</h2><div class=\"card\">" + (sens.findings.length
+      ? table(sens.findings.map(function (f) { return {Check: f.check, Severity: f.severity, Evidence: f.evidence, Fix: f.fix}; }), ["Check", "Severity", "Evidence", "Fix"], ["Severity"])
+      : pill("clean")) + "</div>";
+  var ls = D.last_session;
+  h += "<h2>Last handover</h2><div class=\"card\">" + (ls ? '<div class="handover"><b>' + esc(ls.title) + "</b>" + mini(ls.body) + "</div>" : '<p class="empty">No handover yet.</p>') + "</div>";
+  var open = ((R.tasks && R.tasks.rows) || []).filter(function (t) { return !/^done/i.test(t.Status || ""); });
+  h += "<h2>Open tasks</h2><div class=\"card\">" + table(open, ["ID", "Task", "Owner", "Stage", "Status", "Due"], ["Status"]) + "</div>";
+  var fb = ((R.feedback && R.feedback.rows) || []).filter(function (f) { return !/^(resolved|declined)/i.test(f.Status || ""); });
+  h += "<h2>Feedback in flight</h2><div class=\"card\">" + table(fb, ["ID", "Date", "From", "Feedback", "Status"], ["Status"]) + "</div>";
+  var ap = ((R.approvals && R.approvals.rows) || []).slice(-8).reverse();
+  h += "<h2>Recent approval rounds</h2><div class=\"card\">" + table(ap, ["Round", "Date", "Deliverable", "Gate", "Verdict"], ["Verdict"]) + "</div>";
+  var gl = ((R.gates && R.gates.rows) || []).slice(-6).reverse();
+  h += "<h2>Recent gate runs</h2><div class=\"card\">" + table(gl, ["Date", "Deliverable", "Fails", "Warns", "Verdict"], ["Verdict"]) + "</div>";
+  document.getElementById("app").innerHTML = h;
+  // Progress bars grow to their value; numbers count up. Skipped entirely under reduced motion.
+  var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var bars = document.querySelectorAll(".stage .bar i");
+  requestAnimationFrame(function () { bars.forEach(function (b) { b.style.width = b.getAttribute("data-w") + "%"; }); });
+  if (!calm) {
+    document.querySelectorAll(".tile b[data-n]").forEach(function (el) {
+      var end = +el.getAttribute("data-n"), t0 = null;
+      if (!end) return;
+      function step(ts) { t0 = t0 || ts; var k = Math.min(1, (ts - t0) / 600); el.textContent = Math.round(end * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(step); }
+      requestAnimationFrame(step);
+    });
+  }
+})();
+</script>
+</body>
+</html>

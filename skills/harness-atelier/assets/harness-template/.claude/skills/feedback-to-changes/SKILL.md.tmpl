@@ -1,0 +1,15 @@
+---
+name: feedback-to-changes
+description: Turn meeting notes, review comments, emails or client feedback into logged feedback rows and individually approvable proposed changes, without applying anything unapproved. Use when feedback arrives, after a review or client meeting, when someone pastes comments or a notes link, or says "process this feedback" or "what did they ask for".
+---
+
+# Feedback to changes
+
+Feedback lost between a meeting and the design file is the most common way projects slip. This skill makes every ask a row, and every proposed change a separate yes/no decision for a person.
+
+1. **Read the source itself**, live (the note, the thread, the comment export). Never work from a remembered summary. Cite where each item came from.
+2. **Split into atomic asks.** One row per ask in `records/feedback.md`, status open. Mark anything ambiguous with an ASK marker (double square brackets, `ASK:` and the question) addressed to the person who said it.
+3. **Cross-check each ask** against `context/scope.md`, Committed rows in `docs/decisions.md` and `context/ux-context.md`. An ask that changes scope or a date also becomes a row in `records/changes.md` (pending). An ask that contradicts a research constraint gets flagged, not silently obeyed.
+4. **Old feedback, current round.** If it refers to an earlier round, map it onto the current version rather than reverting later work; say what you mapped.
+5. **Propose changes** as a numbered list, one change per item: what changes, where (file, frame), which feedback ID it answers. Write the list into the deliverable's folder as `proposed-changes-<date>.md`.
+6. **A person approves or rejects each item.** Apply only approved items, then mark the feedback rows planned or resolved and add tasks for the rest. Never apply a batch on one "looks good".

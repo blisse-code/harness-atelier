@@ -1,0 +1,12 @@
+{
+  "context": "inhouse",
+  "tracks": [
+    "research"
+  ],
+  "team": [
+    {
+      "name": "A",
+      "role": "researcher"
+    }
+  ]
+}

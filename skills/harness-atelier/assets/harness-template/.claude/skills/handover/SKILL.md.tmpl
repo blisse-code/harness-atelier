@@ -1,0 +1,19 @@
+---
+name: handover
+description: Write the end-of-session handover entry so the next session (another person, or you tomorrow) starts warm instead of cold. Use at the end of any substantive working session, when someone says "wrap up", "hand over", "close out", "end of day", or when the Stop hook asks for it.
+---
+
+# Handover
+
+Sessions forget; files don't. Two readers use this entry: a person skimming what happened, and the next agent deciding where to start.
+
+Append one entry to `records/handovers.md`:
+
+- A level-3 heading: today's date from the system clock (run `date +%F`), an em dash, the person's name.
+- **Did:** one or two sentences.
+- **Committed:** decisions made, each also written to `docs/decisions.md` (give the IDs).
+- **Sketching:** explored, not decided. Keep this separate so a sketch never hardens into a rule by accident.
+- **Open:** questions and blockers, each with who can answer.
+- **Next:** the first move for the next session, what it can do alone, and what needs a person.
+
+Before writing, make sure everything produced this session is in its file, not only in chat. If the session was trivial (a lookup, a typo), say so in one line instead of writing an entry.

@@ -1,0 +1,27 @@
+# Onboarding
+
+For a new person joining work that runs on {{HARNESS_NAME}}. Every step, in order.
+
+## Once per computer
+
+1. Install Claude Code (or open the folder in the Claude desktop app) and sign in.
+2. Make sure `python3 --version` works (3.8 or newer). Nothing else needs installing for the harness itself.
+3. If the project uses git: clone it, then run `./scripts/install_git_hooks.sh` once. The session-start hook also tries this.
+4. Connect the tools your role needs: {{TOOLS_LIST_INLINE}}. Sign in yourself; nobody should ever ask for your password.
+
+## First session
+
+1. Open the project folder. Accept the trust prompt (it lets the project's hooks run).
+2. Say who you are and your role. Claude reads `CLAUDE.md` and the last handover and tells you where things stand.
+3. Ask "what should I do next?"; the `next-steps` skill answers from the records.
+
+## Every session
+
+- Start: read what Claude mirrors back; correct it if it's wrong.
+- During: when something is decided, say "commit that"; it goes into `docs/decisions.md`.
+- Before showing work to anyone: "run the gate".
+- End: "hand over"; the next person (or you, tomorrow) starts from there.
+
+## The team
+
+{{TEAM_TABLE}}

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" width="1200" height="440" role="img" aria-labelledby="t d">
+<title id="t">Harness Atelier: five parts of a design harness</title>
+<desc id="d">A ring of five parts, Rails, Memory, Moves, Checks and Loop, with a marker travelling around it. Each part lights up as the marker passes.</desc>
+<style>
+  :root, svg { --bg:#fbfaf7; --panel:#ffffff; --ink:#1d1d1b; --muted:#6b6a66; --line:#e2dfd7;
+    --accent:#2f5bd3; --accent-soft:#e6ecfb; --ok:#1e7a44; --ok-soft:#e3f3e9; --warn:#a36500; --warn-soft:#fdf0d6;
+    --fail:#b3261e; --fail-soft:#fbe6e3; }
+  @media (prefers-color-scheme: dark) {
+    :root, svg { --bg:#0d1117; --panel:#161b22; --ink:#e6edf3; --muted:#8d96a0; --line:#30363d;
+      --accent:#7ea2ff; --accent-soft:#1b2a4d; --ok:#56d38a; --ok-soft:#12301f; --warn:#f2c26b; --warn-soft:#3a2c10;
+      --fail:#ff8a80; --fail-soft:#3d1a17; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  text { font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: var(--ink); }
+  .muted { fill: var(--muted); }
+  .bg { fill: var(--bg); }
+
+  .ring { fill:none; stroke:var(--line); stroke-width:2; }
+  .ring-flow { fill:none; stroke:var(--accent); stroke-width:2; stroke-dasharray:6 14; animation: flow 6s linear infinite; }
+  .dot { fill:var(--panel); stroke:var(--accent); stroke-width:2.5; }
+  .halo { fill:var(--accent); opacity:.0; animation: halo 10.0s ease-out infinite; }
+  .orbit { transform-origin:820px 220px; animation: spin 10.0s linear infinite; }
+  .orbit circle { fill:var(--accent); }
+  .label { font-size:20px; font-weight:650; }
+  .sub { font-size:14px; }
+  .h1 { font-size:46px; font-weight:750; letter-spacing:-.5px; }
+  .lede { font-size:19px; }
+  .chip { fill:var(--accent-soft); }
+  .chiptext { font-size:14px; font-weight:600; fill:var(--accent); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes flow { to { stroke-dashoffset:-40; } }
+  @keyframes halo { 0% { opacity:.35; transform:scale(1); } 18% { opacity:0; transform:scale(2.1); } 100% { opacity:0; transform:scale(2.1); } }
+</style>
+<rect class="bg" width="1200" height="440" rx="16"/>
+
+<text x="64" y="150" class="h1">Harness Atelier</text>
+<text x="64" y="194" class="lede muted">A Claude skill that builds the harness around the AI,</text>
+<text x="64" y="222" class="lede muted">fitted to how a designer or team really works.</text>
+<rect x="64" y="258" width="196" height="34" rx="17" class="chip"/><text x="162" y="280" text-anchor="middle" class="chiptext">interview → map → build</text>
+<rect x="272" y="258" width="168" height="34" rx="17" class="chip"/><text x="356" y="280" text-anchor="middle" class="chiptext">verified, not assumed</text>
+<circle cx="820" cy="220" r="130" class="ring"/>
+<circle cx="820" cy="220" r="130" class="ring-flow"/>
+<g class="orbit"><circle cx="820" cy="90" r="6"/></g>
+<g class="node" style="animation-delay:0.00s"><circle cx="820.0" cy="90.0" r="17" class="dot"/><circle cx="820.0" cy="90.0" r="17" class="halo" style="animation-delay:0.00s;transform-origin:820.0px 90.0px"/><text x="820.0" y="44.0" text-anchor="middle" class="label">Rails</text><text x="820.0" y="64.0" text-anchor="middle" class="sub muted">what output stays inside</text></g><g class="node" style="animation-delay:2.00s"><circle cx="943.6" cy="179.8" r="17" class="dot"/><circle cx="943.6" cy="179.8" r="17" class="halo" style="animation-delay:2.00s;transform-origin:943.6px 179.8px"/><text x="967.6" y="175.8" text-anchor="start" class="label">Memory</text><text x="967.6" y="195.8" text-anchor="start" class="sub muted">truth between sessions</text></g><g class="node" style="animation-delay:4.00s"><circle cx="896.4" cy="325.2" r="17" class="dot"/><circle cx="896.4" cy="325.2" r="17" class="halo" style="animation-delay:4.00s;transform-origin:896.4px 325.2px"/><text x="920.4" y="321.2" text-anchor="start" class="label">Moves</text><text x="920.4" y="341.2" text-anchor="start" class="sub muted">the workflow itself</text></g><g class="node" style="animation-delay:6.00s"><circle cx="743.6" cy="325.2" r="17" class="dot"/><circle cx="743.6" cy="325.2" r="17" class="halo" style="animation-delay:6.00s;transform-origin:743.6px 325.2px"/><text x="719.6" y="321.2" text-anchor="end" class="label">Checks</text><text x="719.6" y="341.2" text-anchor="end" class="sub muted">sensors, then a judge</text></g><g class="node" style="animation-delay:8.00s"><circle cx="696.4" cy="179.8" r="17" class="dot"/><circle cx="696.4" cy="179.8" r="17" class="halo" style="animation-delay:8.00s;transform-origin:696.4px 179.8px"/><text x="672.4" y="175.8" text-anchor="end" class="label">Loop</text><text x="672.4" y="195.8" text-anchor="end" class="sub muted">every miss, a fix</text></g>
+
+</svg>

@@ -1,0 +1,73 @@
+# {{HARNESS_NAME}}: working map
+
+This file is a map, not a manual. It says where things are and which rules are non-negotiable; the detail lives in `docs/`. Keep it under ~120 lines: when a section grows, move the detail to `docs/process.md` and leave a pointer.
+
+- **Owner:** {{OWNER}} (approves any change to these rules)
+- **Context:** {{CONTEXT_LABEL}}
+- **Tracks:** {{TRACKS}}
+- {{ROLE_LINE}}
+
+## Start of every session
+
+1. Read the SessionStart note. Mirror the last handover back in 2–3 lines before doing anything else, so the person can correct a wrong starting point cheaply.
+2. Check the request against what is **Committed** in `docs/decisions.md` and the last handover. An **adjustment** (same problem, different execution) is fine: note it and carry on. A **reframe** (different problem, or a Committed decision broken) means stop, name exactly what changed, and let the person choose: update the decision, or go back to it.
+3. Find the stage below and load its skill. If no stage fits, say so: the harness may be missing a step, and that is worth recording.
+
+## The pipeline
+
+{{PIPELINE_LINE}}
+
+{{STAGES_TABLE}}
+
+Full method per stage: `docs/process.md`.
+
+## Rails: what output must stay inside
+
+{{RAILS}}
+
+{{CONTEXT_RULES}}
+
+## Memory: where the truth lives
+
+- `context/brief.md`, `context/scope.md`, `context/timeline.md`: what was asked, what is in and out (and who owns the out), when.
+- `docs/decisions.md`: every Committed decision and rule, with who decided and why. A rule without a source can't be safely challenged later.
+- `records/handovers.md`: one entry per substantive session (the `handover` skill).
+- **How much to apply on your own:** {{AUTONOMY}}
+- **Write output to its file in the same turn you produce it.** Chat is not storage. When a file still carries a seed marker (an HTML comment beginning `status: seed`), replace the seed text with real content and remove the marker; delete a seed file for a step this project doesn't use.
+- `[[ASK]]` markers are questions for a person, never fields to fill by inference.
+
+## Moves: skills and agents
+
+{{MOVES_TABLE}}
+
+The evaluator is a different agent from the one that made the work, on purpose: makers grade their own work kindly.
+
+## Checks: before anyone reviews anything
+
+1. **Sensors first:** `python3 scripts/harness_check.py`. Cheap, deterministic, no judgement.
+2. **Then the gate:** the `gate` skill builds a rubric from `docs/gate-rubric.md` plus the current scope, ux-context, rules and open feedback, and hands it to the `evaluator`.
+3. Every finding names its check, cites its evidence (file, frame, element) and carries a severity: **fail** blocks review, **warn** does not. Fail is the default. Only the owner can waive a fail, and the waiver is written into `records/gate-log.md`.
+4. Never say a check passed unless it ran. Say exactly what ran and what could not be checked.
+
+## Approval chain
+
+{{APPROVAL_CHAIN}}. Every deliverable goes through every gate, in order, after the checks. Feedback from a later gate re-enters through the first one. Each round is a row in `records/approvals.md`. Approval and shipping are separate events: shipping is a row in `records/ships.md` that cites its approval round.
+
+## Records (fixed columns: `.harness/schema.json`)
+
+Tasks → `records/tasks.md` · feedback → `records/feedback.md` · change requests → `records/changes.md` · approval rounds → `records/approvals.md` · gate runs → `records/gate-log.md` · deliveries → `records/ships.md` · reusable past work → `records/past-work.md`. Keep headers and status words exactly as written; the checker and dashboard read by column name. Pull before allocating a new ID; on a clash, renumber your own.
+
+## Learning loop
+
+When something goes wrong, the fix is never "be more careful". It is a permanent change to the harness: a rail, a line of memory, or a check. Record the miss and its fix in `docs/evolution.md` and the rule in `docs/decisions.md`. A comment that recurs becomes a rule; a one-off UI that recurs becomes a component; a flag that recurs becomes a sensor.
+
+## Hard lines
+
+- Edit sources, never generated output (see `docs/process.md`, "Sources").
+- Never delete or overwrite someone else's work, records or Figma frames without their say.
+- Never invent tokens, data, quotes, metrics or approvals.
+- Never ask for, store or repeat passwords, keys or rates.
+
+## Where detail lives
+
+`docs/process.md` (method per stage, sources table) · `docs/gate-rubric.md` (what the gate checks) · `docs/decisions.md` (why each rule exists) · `docs/evolution.md` (failure register, rituals) · `docs/onboarding.md` (setup for a new person) · `dashboard/index.html` (status at a glance; `python3 scripts/build_dashboard.py` refreshes it).

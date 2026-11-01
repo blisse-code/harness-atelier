@@ -1,0 +1,18 @@
+---
+name: gate
+description: Check a deliverable before any person reviews it - runs the deterministic sensors, then a separate evaluator agent against a rubric built from this project's scope, ux-context, rails and open feedback, and logs the verdict. Use whenever work is about to be shown to the lead, a client or stakeholders, or when someone says "check this", "is this ready", "run the gate", "review before I send", or after revising anything that was previously reviewed.
+---
+
+# Gate
+
+Makers grade their own work kindly, so the judgement here comes from a separate agent that did not make the work. Cheap checks run first so judgement isn't wasted on what a grep catches.
+
+1. **Name exactly what is being checked:** files, frames, links. If it's a design file and the design tool isn't connected, say so; don't evaluate from memory.
+2. **Sensors:** run `python3 scripts/harness_check.py`. Any confidentiality fail stops the gate right here.
+3. **Build the rubric** for this run from `docs/gate-rubric.md` plus: the relevant lines of `context/scope.md`, `context/ux-context.md`, Committed rows in `docs/decisions.md`, open rows in `records/feedback.md` that apply to this deliverable, and the done-criteria agreed for this work. Write the rubric into the evaluator's brief; it starts with no other context.
+4. **Run the `evaluator` agent** with the rubric and the exact items. Ask it for the findings table and verdict line only.
+5. **Don't soften the result.** Pass the findings on as returned. If you disagree with a finding, say so separately and say why; never delete it.
+6. **Log** one row in `records/gate-log.md` (date, deliverable, sensor result, evaluator verdict, fail and warn counts, verdict). A waived fail needs the owner's name in the row.
+7. **Route:** fails go back to the maker as tasks in `records/tasks.md`; a clean result goes to the first approver in the chain with the findings attached.
+
+Never say "passed" for a check that didn't run. Say what ran, and what couldn't be checked (for example: "contrast not measured: no access to the live file").
