@@ -1,25 +1,33 @@
 name: release
 
+# Runs when a release is published (from the GitHub UI, the API or `gh release create`).
+# It re-runs the evals, builds the .skill file and attaches it to that release.
 on:
-  push:
-    tags: ["v*"]
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing release tag to attach the .skill file to"
+        required: true
 
 permissions:
   contents: write
 
 jobs:
-  release:
+  package:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.tag }}
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.13"
       - run: python evals/run_evals.py
       - run: python tools/package_skill.py
-      - name: Publish release with the .skill file
+      - name: Attach the .skill file to the release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: |
-          notes=$(awk -v tag="${GITHUB_REF_NAME#v}" '$0 ~ "^## "tag {f=1; next} /^## / && f {exit} f' CHANGELOG.md)
-          gh release create "$GITHUB_REF_NAME" dist/harness-atelier.skill --title "$GITHUB_REF_NAME" --notes "${notes:-See CHANGELOG.md}"
+          TAG: ${{ github.event.release.tag_name || inputs.tag }}
+        run: gh release upload "$TAG" dist/harness-atelier.skill --clobber
