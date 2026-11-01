@@ -172,7 +172,7 @@ evals/                            fixtures and the deterministic eval runner
 tools/package_skill.py            builds the .skill file attached to each release
 ```
 
-The README diagrams are build products. To change one, edit `docs/visuals/build_visuals.py`, run it, and commit both. The motion is CSS only, loops slowly, and freezes into a complete, readable picture when reduced motion is on.
+The README diagrams are build products. To change one, edit `docs/visuals/build_visuals.py`, run it, and commit both. The motion is CSS only, loops slowly, and freezes into a complete, readable picture when reduced motion is on. Diagrams and the generated dashboard are set in [Atkinson Hyperlegible](https://fonts.google.com/specimen/Atkinson+Hyperlegible), a typeface the Braille Institute designed for legibility. Each SVG embeds a small Latin subset because GitHub shows SVGs as images, and images can't load web fonts. The dashboard bundles the font so it works offline.
 
 ## Credits
 
@@ -185,6 +185,8 @@ The skill's principles were learned from these sources and rewritten in its own 
 - Claire Vo, *How I AI*: building a narrow harness for one recurring workflow
 - Böckeler and Lopopolo on harness engineering (guides vs sensors; a map, not an encyclopedia)
 - Lessons from running a real studio harness on live projects
+
+Typeface: Atkinson Hyperlegible by the Braille Institute of America, SIL Open Font License 1.1 (licence files in `docs/visuals/fonts/` and the dashboard's `fonts/`).
 
 ## License
 

@@ -12,12 +12,26 @@ Motion rules (why the animations look the way they do):
   * One idea per animation: a cycle, a progression, a filter, a loop. Slow
     loops (8-16 s) so the README never feels busy.
   * Light and dark palettes via `prefers-color-scheme`, matching GitHub's theme.
+  * Type is Atkinson Hyperlegible (Braille Institute, SIL OFL 1.1; see fonts/), chosen for
+    legibility. GitHub shows README SVGs as images, which cannot load web fonts, so a small
+    Latin subset (regular and bold) is embedded in each file. fonts/ holds the subsets and the licence.
 """
 from __future__ import annotations
 
+import base64
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parent
+FONTS = OUT / "fonts"
+
+
+def font_face() -> str:
+    faces = []
+    for weight in (400, 700):
+        data = base64.b64encode((FONTS / f"atkinson-hyperlegible-{weight}-subset.woff2").read_bytes()).decode()
+        faces.append(f"@font-face {{ font-family: 'Atkinson Hyperlegible'; font-style: normal; font-weight: {weight}; "
+                     f"src: url(data:font/woff2;base64,{data}) format('woff2'); }}")
+    return "\n  ".join(faces)
 
 PALETTE = """
   :root, svg { --bg:#fbfaf7; --panel:#ffffff; --ink:#1d1d1b; --muted:#6b6a66; --line:#e2dfd7;
@@ -29,7 +43,7 @@ PALETTE = """
       --fail:#ff8a80; --fail-soft:#3d1a17; }
   }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
-  text { font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: var(--ink); }
+  text { font-family: 'Atkinson Hyperlegible', ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: var(--ink); }
   .muted { fill: var(--muted); }
   .bg { fill: var(--bg); }
 """
@@ -38,7 +52,7 @@ PALETTE = """
 def svg(w: int, h: int, title: str, desc: str, style: str, body: str) -> str:
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}" '
             f'role="img" aria-labelledby="t d">\n<title id="t">{title}</title>\n<desc id="d">{desc}</desc>\n'
-            f'<style>{PALETTE}{style}</style>\n<rect class="bg" width="{w}" height="{h}" rx="16"/>\n{body}\n</svg>\n')
+            f'<style>\n  {font_face()}{PALETTE}{style}</style>\n<rect class="bg" width="{w}" height="{h}" rx="16"/>\n{body}\n</svg>\n')
 
 
 # ------------------------------------------------------------------ hero: five parts on a ring

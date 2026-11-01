@@ -5,12 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Harness status</title>
 <style>
+  /* Atkinson Hyperlegible (Braille Institute, SIL OFL 1.1, see fonts/): designed for legibility. Bundled, so the page works offline. */
+  @font-face { font-family: "Atkinson Hyperlegible"; font-weight: 400; font-display: swap; src: url("fonts/atkinson-hyperlegible-400.woff2") format("woff2"); }
+  @font-face { font-family: "Atkinson Hyperlegible"; font-weight: 700; font-display: swap; src: url("fonts/atkinson-hyperlegible-700.woff2") format("woff2"); }
   :root {
     --bg: #f6f5f2; --surface: #ffffff; --ink: #1d1d1b; --muted: #6b6a66; --line: #e4e2dc;
     --accent: #2f5bd3; --fail: #b3261e; --fail-bg: #fbe9e7; --warn: #8a5a00; --warn-bg: #fdf2dc;
     --ok: #1e6b3a; --ok-bg: #e5f3e9;
     --r: 10px; --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px;
-    --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font: "Atkinson Hyperlegible", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
