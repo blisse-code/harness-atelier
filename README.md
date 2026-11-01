@@ -151,7 +151,7 @@ python3 evals/run_evals.py      # 64 deterministic checks across 4 fixture harne
 python3 tools/package_skill.py  # builds dist/harness-atelier.skill
 ```
 
-The evals generate a harness from each fixture (agency, solo master, in-house research, minimal). They plant problems in each one and confirm the right sensor fires. They also check the scaffold's safety promises and that the README visuals are rebuilt from source. CI runs them on Python 3.9 and 3.12. The behavioural rubric, which needs a model and a person, is in [`docs/EVALS.md`](docs/EVALS.md).
+The evals generate a harness from each fixture (agency, solo master, in-house research, minimal). They plant problems in each one and confirm the right sensor fires. They also check the scaffold's safety promises and that the README visuals are rebuilt from source. CI runs them on Python 3.9 and 3.13. The behavioural rubric, which needs a model and a person, is in [`docs/EVALS.md`](docs/EVALS.md).
 
 ## What it doesn't do
 
