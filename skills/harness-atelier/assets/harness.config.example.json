@@ -107,5 +107,6 @@
   "standards": [
     "WCAG 2.2 AA",
     "Client brand guidelines v3"
-  ]
+  ],
+  "eval_schedule": "With each gate run; otherwise once a working day; always before an internal review"
 }

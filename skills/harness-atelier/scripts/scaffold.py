@@ -136,6 +136,8 @@ def variables(cfg: dict) -> dict:
         moves.append(("A component or token is approved", "`system-update`"))
     if "research" in tracks:
         moves.append(("Research data needs turning into insights", "`synthesise`"))
+    moves.append(("Before an internal review, after changing a skill, rule, script or the rubric, or when the owner corrects Claude",
+                  "`evals` (checks the harness itself; keeps its cases fitted to this project)"))
     moves += [("\"What should I do next?\" / after any review round", "`next-steps`"),
               ("A deliverable leaves the building", "`handoff`"),
               ("The session is ending after real work", "`handover`")]
@@ -168,6 +170,8 @@ def variables(cfg: dict) -> dict:
         "DELIVERABLES": ", ".join(cfg.get("deliverable_kinds") or []) or ask("deliverable types"),
         "FAILURE_ROWS": "\n".join(f"| F{i + 1} | {f} | {ask('guide, sensor or record that prevents it')} | open |"
                                   for i, f in enumerate(failures)),
+        "EVAL_FAILURE_ROWS": "\n".join(f"| F{i + 1}: {f} | see docs/evolution.md | {ask('eval case that would catch it')} | open |"
+                                        for i, f in enumerate(failures)) or "| (none named in the interview) | | | |",
         "CONTEXT_RULES": context_rules(ctx, design),
         "AUTONOMY": {"propose": "Propose only: the AI drafts, a person applies.",
                      "per-item": "Apply after per-item approval: each proposed change is approved individually.",

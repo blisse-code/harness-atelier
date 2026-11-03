@@ -37,3 +37,10 @@ These come from studying (read-only) how a studio harness was built and changed 
 - **"Planned" infrastructure sat unbuilt for a day while being described as if it existed.** *Fix:* only describe what has been run; label everything else as not built.
 - **A check was substituted with a human step and the gap went unmentioned.** *Fix:* when a capability is deferred, say so in the decisions log with what would activate it.
 - **Some limits are permanent.** Hooks can't run before a person trusts the folder; a sync script can't force a team's daily habit. State these plainly in the handover rather than implying the harness covers them.
+
+## Found by the harness's own evals
+- **A skill that asks before it writes wrote nothing when no one could answer.** Intake asked its questions and deferred the files; a headless or rushed session left no brief at all. *Fix:* write the files the same turn with `[[ASK]]` markers for the open questions, then ask.
+- **"We agreed X; I'm stopping" left no trace.** The handover nudge fired only after file changes. *Fix:* the handover skill also triggers on a stated decision or "I'm stopping", and records the decision first.
+- **A test session without the harness's hooks tested the wrong thing.** Restricted headless runs skip settings files, so the confidentiality guard and the stop hook didn't run and a planted term got written. *Fix:* the eval runner loads the copy's own `.claude/settings.json` explicitly, inside a shell sandbox.
+- **An eval that only checked one run passed a flaky rule.** *Fix:* regression rows pass only at 3 of 3.
+

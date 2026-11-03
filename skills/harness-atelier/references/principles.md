@@ -57,6 +57,7 @@ Each principle says what to do, why, and where this skill puts it into practice.
 29. **Evidence, not confidence.** Every finding names its check, cites the element or file, and carries a severity. Fail is the default; only the owner waives it, in writing. *[SK design-lint, AH]*
 30. **Weight taste explicitly.** Coherence and distinctiveness deserve as much weight as craft, because models deliver tidy craft by default. Output that would still work with a competitor's name swapped in is generic. *[ANT, DH]*
 31. **Scoped, honest claims.** Say exactly what ran and what couldn't be checked. Never "all good" without a run behind it. *[VER, VO]*
+32a. **Check the harness too, not just the work.** The gate checks a deliverable; evals check that the harness itself still behaves: its scripts give the right result, Claude follows its rules every time (several runs, not one), and the gate catches planted problems without inventing new ones. Start from real misses; grade the end state in the files, never what Claude says it did; run in a throwaway copy with no connectors. Every failure is triaged: is the eval wrong, the harness wrong, or the gate wrong? *[ANT evals guidance, AH]*
 32. **Approval and shipping are different events.** A round can be approved and never shipped; record both. *[RAM, AH]*
 
 ## 6. Loop

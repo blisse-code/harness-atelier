@@ -32,7 +32,8 @@ PARTS = {
     "Moves": [".claude/settings.json", ".claude/skills/intake/SKILL.md", ".claude/skills/gate/SKILL.md",
               ".claude/skills/handover/SKILL.md", ".claude/skills/next-steps/SKILL.md", ".claude/agents/evaluator.md"],
     "Checks": ["scripts/harness_check.py", "scripts/records.py", ".harness/schema.json", "docs/gate-rubric.md",
-               "records/gate-log.md"],
+               "records/gate-log.md", "evals/README.md", "evals/EVALS.md", "evals/tests/test_harness.py",
+               "evals/run.py", "evals/cases.json", ".claude/skills/evals/SKILL.md"],
     "Loop": ["docs/evolution.md", "docs/decisions.md", "records/past-work.md"],
 }
 SEED = re.compile(r"<!--\s*status:\s*seed", re.I)
@@ -120,6 +121,14 @@ def main() -> int:
     if "FAILED" in dash_line:
         problems.append(dash_line)
 
+    eval_line = "evals not present"
+    if (root / "evals" / "tests").exists():
+        code, out = run([sys.executable, "-m", "unittest", "discover", "-s", "evals/tests"], root)
+        last = (out.strip().splitlines() or ["?"])[-1]
+        eval_line = f"script evals {'pass' if code == 0 else 'FAIL'} ({last})"
+        if code != 0:
+            problems.append(eval_line + ": " + out[-400:])
+
     asks = sum(len(ASK.findall(p.read_text(encoding="utf-8"))) for p in root.rglob("*.md")
                if ".git" not in p.parts)
 
@@ -142,7 +151,7 @@ def main() -> int:
             ev.append("still seeded: " + ", ".join(r["seeded"]))
         print(f"| {part} | {r['state']} | {'; '.join(ev) or 'all files present and filled'} |")
     print(f"\nTests: {sensor_line}; {guard_line}; {hook_line}; {dash_line}; "
-          f"records parse {'cleanly' if not drift else 'WITH DRIFT'}; {asks} open [[ASK]] marker(s).")
+          f"records parse {'cleanly' if not drift else 'WITH DRIFT'}; {eval_line}; {asks} open [[ASK]] marker(s).")
     if master:
         print("Role: master (per-project seeds in context/ and system/ are expected to stay seeded).")
     print(f"Maturity: {maturity}. " + {

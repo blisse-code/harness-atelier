@@ -67,6 +67,19 @@
   .stage .bar { height: 4px; border-radius: 2px; background: var(--line); margin-top: auto; overflow: hidden; }
   .stage .bar i { display: block; height: 100%; width: 0; background: var(--accent); }
   button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .how-top { display: flex; justify-content: space-between; align-items: center; gap: var(--s2); flex-wrap: wrap; margin-bottom: var(--s3); }
+  .how-tabs button[aria-selected="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .how { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--s3); }
+  .how li { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: var(--s3); }
+  .how li:not(:last-child)::after { content: "\2192"; position: absolute; right: -11px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+  .how.loop li:last-child::after { content: "\21BA"; position: absolute; right: 8px; top: 6px; color: var(--muted); }
+  .how .n { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; margin-right: 6px; }
+  .how small { display: block; color: var(--muted); margin-top: 2px; }
+  .how .live { display: block; font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .how.play li { animation: howIn .42s cubic-bezier(.2,.7,.2,1) backwards; }
+  @keyframes howIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .how.play li { animation: none; } }
+  @media (max-width: 560px) { .how li:not(:last-child)::after { content: "\2193"; right: auto; left: 50%; top: auto; bottom: -15px; transform: translateX(-50%); } }
 </style>
 </head>
 <body>
@@ -130,6 +143,30 @@
       return '<div class="stage" style="--i:' + (i + 6) + '"><small>' + (i + 1) + " · " + esc(s.owner) + "</small><b>" + esc(s.name) + "</b><div>" + (st ? pill(st) : "") +
         '</div><div class="bar" aria-hidden="true"><i data-w="' + pct + '"></i></div></div>';
     }).join("") + "</div>";
+  // How this harness works: the stages and the check loop as an animated diagram (plays once; Replay re-runs).
+  var ev = (D.evals && D.evals.runs) || [], lastEv = ev[ev.length - 1];
+  var gates = (R.gates && R.gates.rows) || [];
+  var HOW = {
+    pipeline: (D.stages || []).map(function (s) { return [s.name, s.owner ? ("Owner: " + s.owner) : "", s.done_when ? ("Done when: " + s.done_when) : ""]; }),
+    checks: [
+      ["Work", "Someone makes or revises a deliverable", ""],
+      ["Sensors", "Cheap checks: confidentiality, seeds, records", (sens.fails || 0) + " fail(s) now"],
+      ["Gate", "A separate evaluator judges against the rubric", gates.length + " gate run(s)"],
+      ["Fix", "Fails become tasks with an owner", (S.tasks_open || 0) + " open task(s)"],
+      ["Evals", "The harness checks itself", lastEv ? ("last " + lastEv.date + " · " + lastEv.layer + ": " + lastEv.result) : "not run yet"],
+      ["Approval", (D.approval_chain || []).join(" \u2192 ") || "Who signs off", ""]
+    ]
+  };
+  var howTab = "pipeline";
+  function howHTML(play) {
+    var steps = HOW[howTab].length ? HOW[howTab] : [["No stages yet", "Fill the stages in harness.config.json", ""]];
+    return '<ol class="how' + (howTab === "checks" ? " loop" : "") + (play ? " play" : "") + '">' + steps.map(function (s, i) {
+      return '<li style="animation-delay:' + (i * 0.18) + 's"><span class="n">' + (i + 1) + "</span><b>" + esc(s[0]) + "</b>" + (s[1] ? "<small>" + esc(s[1]) + "</small>" : "") + (s[2] ? '<span class="live">' + esc(s[2]) + "</span>" : "") + "</li>";
+    }).join("") + "</ol>";
+  }
+  h += '<h2>How this harness works</h2><div class="card"><div class="how-top"><div class="how-tabs" role="tablist">' +
+    '<button role="tab" data-how="pipeline" aria-selected="true">The pipeline</button> <button role="tab" data-how="checks" aria-selected="false">The check loop</button></div>' +
+    '<button id="how-replay">Replay</button></div><div id="how-box">' + howHTML(false) + "</div></div>";
   h += "<h2>Sensors</h2><div class=\"card\">" + (sens.findings.length
       ? table(sens.findings.map(function (f) { return {Check: f.check, Severity: f.severity, Evidence: f.evidence, Fix: f.fix}; }), ["Check", "Severity", "Evidence", "Fix"], ["Severity"])
       : pill("clean")) + "</div>";
@@ -144,6 +181,14 @@
   var gl = ((R.gates && R.gates.rows) || []).slice(-6).reverse();
   h += "<h2>Recent gate runs</h2><div class=\"card\">" + table(gl, ["Date", "Deliverable", "Fails", "Warns", "Verdict"], ["Verdict"]) + "</div>";
   document.getElementById("app").innerHTML = h;
+  var box = document.getElementById("how-box");
+  function howPlay() { box.innerHTML = howHTML(true); }
+  document.querySelectorAll("[data-how]").forEach(function (b) { b.addEventListener("click", function () {
+    howTab = b.getAttribute("data-how");
+    document.querySelectorAll("[data-how]").forEach(function (x) { x.setAttribute("aria-selected", String(x === b)); });
+    howPlay(); }); });
+  document.getElementById("how-replay").addEventListener("click", howPlay);
+  if ("IntersectionObserver" in window) { var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); howPlay(); } }, {threshold: 0.35}); io.observe(box); } else { howPlay(); }
   // Progress bars grow to their value; numbers count up. Skipped entirely under reduced motion.
   var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var bars = document.querySelectorAll(".stage .bar i");

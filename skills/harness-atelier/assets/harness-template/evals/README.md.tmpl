@@ -1,0 +1,37 @@
+# Evals: the harness checking itself
+
+The gate checks **the work**. Evals check **this harness**: do its scripts give the right result, does Claude follow its rules and skills every time, and does the gate judge correctly? An eval counts how often a behaviour holds over several runs; it is not a one-off test. Owner: {{OWNER}}.
+
+## Four layers
+| Layer | What it checks | Grader | Cost |
+|---|---|---|---|
+| **A. Scripts** | `harness_check.py`, `records.py`, the confidentiality guard, the dashboard build | Code (`evals/tests/`) | Free, seconds |
+| **B. Behaviour** | Claude follows the rules: intake asks instead of guessing, gate before review, handover at the end, feedback proposed not applied, scope respected | Code on the end state first; one yes/no model judge where code can't decide | A few dollars a run |
+| **C. Gate** | The gate catches planted problems in a seeded deliverable and doesn't invent findings on a clean one | Seeded fixtures (built per project) | Tokens |
+| **D. Flows** | User-flow diagrams: no unlinked boxes, no dead ends, labelled branches, content matches the rules | Code plus judge | Tokens |
+
+## Safety: evals never touch live work
+1. Behaviour runs use a throwaway copy of this folder.
+2. `claude -p --restricted`: no hooks or settings files, no connectors, file tools confined to the copy, shell sandboxed to the copy, a spend cap per run.
+3. Seeded design files live in a sandbox file, never the client's.
+4. Nothing is sent. Runs never happen inside a scheduled routine.
+5. Runs on the agreed schedule are pre-approved by the owner; extra runs that spend tokens need the owner's yes.
+
+## When to run
+- With the day's gate run; otherwise once a working day in an open session.
+- **Before every internal review**: every layer has run at least once on the work going to it, and its failures are fixed.
+- After changing a skill, `CLAUDE.md`, a script or the gate rubric: that part's rows, 3 runs each.
+
+## How to run
+- Layer A: `python3 -m unittest discover -s evals/tests -v`
+- Layer B: `python3 evals/run.py --log` (all cases, 3 runs each) or `python3 evals/run.py B2 --runs 1`
+- Cases: `evals/cases.json` (generic) and `evals/cases.project.json` (this project's own, written by the `evals` skill).
+
+## After a run
+1. **Outcome:** each row passes or fails per run; its result is the pass count (e.g. 3 of 3).
+2. **Stored:** one line in `evals/runs.md`; the evidence of every failure in `evals/results/<date>-<layer>.md`. The dashboard shows the latest.
+3. **Nothing fixes itself.** Read the evidence, then decide: the eval is wrong (fix the case), the harness is wrong (a task in `records/tasks.md` with an owner), or the gate judged wrongly (change the rubric, never the planted fixture).
+4. **Closed** only when the row passes again, 3 of 3.
+
+## Growing the suite
+Start from real misses, not imagined ones. Every entry in the failure register (`docs/evolution.md`) gets a case; so does every rule the owner adds and every correction they give. New meeting notes are checked for new standing rules. Drafts are approved one by one ({{APPROVAL_CHAIN}}).

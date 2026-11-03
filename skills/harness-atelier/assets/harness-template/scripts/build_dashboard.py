@@ -43,6 +43,19 @@ def sensors() -> dict:
                 "fails": 0, "warns": 1}
 
 
+def evals() -> dict:
+    """Eval runs from evals/runs.md (the harness checking itself): the latest few, newest last."""
+    path = R.ROOT / "evals" / "runs.md"
+    if not path.exists():
+        return {"runs": []}
+    rows = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if line.startswith("|") and len(cells) >= 4 and re.match(r"\d{4}-\d{2}-\d{2}$", cells[0]):
+            rows.append({"date": cells[0], "layer": cells[1], "rows": cells[2], "result": cells[3]})
+    return {"runs": rows[-6:]}
+
+
 def main() -> int:
     quiet = "--quiet" in sys.argv
     schema = R.load_schema()
@@ -70,6 +83,7 @@ def main() -> int:
         "records": {k: {"path": v["path"], "rows": v["rows"]} for k, v in data.items()},
         "last_session": last_session(),
         "sensors": sensors(),
+        "evals": evals(),
     }
     out = R.ROOT / "dashboard" / "data.js"
     out.write_text("window.HARNESS = " + json.dumps(payload, indent=1) + ";\n", encoding="utf-8")

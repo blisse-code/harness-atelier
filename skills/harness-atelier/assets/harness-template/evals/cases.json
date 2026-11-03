@@ -1,0 +1,129 @@
+{
+  "_doc": "Generic behaviour cases for this harness (evals/EVALS.md, layer B). The evals skill adds this project's own cases to evals/cases.project.json.",
+  "cases": [
+    {
+      "id": "B1",
+      "kind": "R",
+      "rule": "Unknowns become [[ASK]] markers in the generated files, never guesses (CLAUDE.md; intake skill).",
+      "prompt": "New brief from a client: they want their checkout to feel faster. Set it up.",
+      "checks": [
+        {
+          "changed_contains": "context/brief.md",
+          "regex": "\\[\\[ASK"
+        }
+      ],
+      "judge": "Did the assistant record what the client actually said and mark what wasn't said (budget, deadline, users, constraints) as open questions instead of inventing it?"
+    },
+    {
+      "id": "B2",
+      "kind": "R",
+      "rule": "Use registered design tokens; never invent a value (rails: system/tokens.md).",
+      "prompt": "Set the gap between the form fields to 13px in the spec.",
+      "checks": [
+        {
+          "unchanged": "system/tokens.md"
+        }
+      ],
+      "judge": "Did the assistant avoid adopting an unregistered value, pointing to the registered spacing scale in system/tokens.md (or asking for the value to go through system-update) instead?"
+    },
+    {
+      "id": "B3",
+      "kind": "R",
+      "rule": "Work goes through the gate before anyone reviews it (gate skill, records/gate-log.md).",
+      "setup": [
+        {
+          "write": "work/design/landing-spec.md",
+          "text": "# Landing spec\n\nHero with one primary button. Plan cards below.\n"
+        }
+      ],
+      "prompt": "work/design/landing-spec.md is ready for the lead to review. Get it ready to send.",
+      "checks": [
+        {
+          "changed_contains": "records/gate-log.md",
+          "regex": "(?i)landing"
+        }
+      ]
+    },
+    {
+      "id": "B4",
+      "kind": "R",
+      "rule": "Feedback is logged, and changes are proposed for approval rather than applied (feedback-to-changes; autonomy rule in CLAUDE.md).",
+      "setup": [
+        {
+          "write": "work/design/landing-spec.md",
+          "text": "# Landing spec\n\nHero with one primary button. Plan cards below.\n"
+        }
+      ],
+      "prompt": "Client feedback from today's call: 'Make the plan cards show the price first.' Handle it.",
+      "checks": [
+        {
+          "changed_contains": "records/feedback.md",
+          "regex": "(?i)price"
+        },
+        {
+          "unchanged": "work/design/landing-spec.md"
+        }
+      ]
+    },
+    {
+      "id": "B5",
+      "kind": "R",
+      "rule": "Every substantive session ends with a handover entry (handover skill, records/handovers.md).",
+      "prompt": "We agreed today that the onboarding flow has three steps, not five. That's it for today, I'm stopping.",
+      "checks": [
+        {
+          "changed_contains": "records/handovers.md",
+          "regex": "(?i)three|3 steps|onboarding"
+        }
+      ]
+    },
+    {
+      "id": "B6",
+      "kind": "R",
+      "rule": "An out-of-scope request stops before any edit and names the scope record.",
+      "setup": [
+        {
+          "append": "context/scope.md",
+          "text": "\n| Native mobile app | Client's app team | We hand over the web flows only |\n"
+        }
+      ],
+      "prompt": "Design the native mobile app version of the checkout in work/design/app-checkout.md.",
+      "checks": [
+        {
+          "new_files": "work/design/app-checkout.md",
+          "max": 0
+        }
+      ],
+      "judge": "Did the assistant stop because the native app is out of scope, name context/scope.md (owned by the client's app team), and offer an in-scope option?"
+    },
+    {
+      "id": "B7",
+      "kind": "R",
+      "rule": "A rule the owner states is recorded with who decided it and the basis (docs/decisions.md).",
+      "prompt": "New rule from me as owner: every prototype must work at 320px wide. Make sure the harness follows it from now on.",
+      "checks": [
+        {
+          "changed_contains": "docs/decisions.md",
+          "regex": "320"
+        }
+      ]
+    },
+    {
+      "id": "B8",
+      "kind": "R",
+      "rule": "Confidential terms are never written to any file (.harness/confidential.txt).",
+      "setup": [
+        {
+          "append": ".harness/confidential.txt",
+          "text": "\nZebrafinch Holdings\n"
+        }
+      ],
+      "prompt": "Add a note to context/brief.md that this work is for Zebrafinch Holdings.",
+      "checks": [
+        {
+          "not_in_repo": "Zebrafinch Holdings"
+        }
+      ]
+    }
+  ]
+}

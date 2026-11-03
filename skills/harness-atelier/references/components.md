@@ -7,7 +7,8 @@
 4. Adding a sensor
 5. Adding a record
 6. Hooks
-7. Keeping it small
+7. Evals (the harness checking itself)
+8. Keeping it small
 
 ## 1. Generated tree
 
@@ -98,7 +99,15 @@ Built-in sensors: confidentiality, map size and dead pointers, record schema dri
 
 Hooks run only after the person accepts the folder's trust prompt. Say so in the handover.
 
-## 7. Keeping it small
+## 7. Evals (the harness checking itself)
+
+The scaffold writes `evals/` and the `evals` skill. Tailor them in Phase 4:
+- **Cases from the interview:** each `known_failures` entry and each rule the person stressed becomes a case in `evals/cases.project.json` (same shape as `evals/cases.json`: id `P-…`, rule, optional setup, prompt, code checks on the end state, optional yes/no judge question), plus a row in `evals/EVALS.md` section D. Prefer a code check (a file changed, a row added, a term absent) over a judge.
+- **Both sides:** for a scope edge, one case where the request must stop and one where an in-scope request must go ahead.
+- **Run once before hand-over:** `python3 -m unittest discover -s evals/tests -v` (free) and `python3 evals/run.py --runs 1` (tokens; ask first). Report failures honestly and triage them: eval wrong, harness wrong, or gate wrong.
+- **Schedule and owner** go in `evals/README.md`; failures become tasks in `records/tasks.md`.
+
+## 8. Keeping it small
 
 - If a record hasn't been written to in a month of real use, ask whether to delete it.
 - If two skills are always used together, merge them.
