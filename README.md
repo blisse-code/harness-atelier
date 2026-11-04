@@ -114,10 +114,24 @@ The sensors catch anything a script can find before an AI reviewer spends judgem
 
 The evaluator is a different agent from the one that made the work, because makers grade their own work kindly. Every finding names its check, cites its evidence and carries a severity: **fail** blocks review, **warn** does not. Only the owner can waive a fail, and the waiver is logged.
 
+### The harness checks itself
+
+<p align="center">
+  <img src="docs/visuals/evals.svg" alt="Four rows (Scripts, Behaviour, Gate, Flows), each with three run dots turning green; one behaviour run fails first, becomes a task, is fixed and re-run. A rule counts as holding only at 3 of 3." width="100%">
+</p>
+
+The gate checks the work; every generated harness also ships **evals that check the harness itself** (`evals/` and an `evals` skill):
+
+- **Scripts:** the sensors, the write guard, the records and the dashboard build give the right result (free, seconds).
+- **Behaviour:** Claude follows the harness's rules in a throwaway copy with no connectors (intake writes open questions instead of guessing, work goes through the gate, feedback is proposed rather than applied, handovers happen, scope and confidentiality hold). Each case runs 3 times; a rule only counts as holding at 3 of 3.
+- **Gate and flows:** the gate catches planted problems and invents none on a clean copy; flow diagrams have no unlinked boxes or dead ends.
+
+The `evals` skill keeps the cases fitted to the project: every logged miss and every rule the owner adds gets a case, and the owner approves each one. Nothing fixes itself: a failure becomes a task with an owner and closes only when the check passes again. The generated dashboard shows the pipeline and this check loop as an animated "How this harness works" section with live numbers.
+
 ### The learning loop
 
 <p align="center">
-  <img src="docs/visuals/loop.svg" alt="A miss becomes a fix, not a reminder: repeated comments become rules, repeated one-off UI becomes components, greppable problems become sensors." width="100%">
+  <img src="docs/visuals/loop.svg" alt="A miss becomes a fix, not a reminder: repeated comments become rules, repeated one-off UI becomes components, greppable problems become sensors, and a rule that stops holding becomes an eval case." width="100%">
 </p>
 
 ### A glance at the dashboard
@@ -147,11 +161,11 @@ The generated dashboard is one HTML file that opens from disk. It reads only wha
 ## Testing
 
 ```bash
-python3 evals/run_evals.py      # 64 deterministic checks across 4 fixture harnesses
+python3 evals/run_evals.py      # 83 deterministic checks across 4 fixture harnesses
 python3 tools/package_skill.py  # builds dist/harness-atelier.skill
 ```
 
-The evals generate a harness from each fixture (agency, solo master, in-house research, minimal). They plant problems in each one and confirm the right sensor fires. They also check the scaffold's safety promises and that the README visuals are rebuilt from source. CI runs them on Python 3.9 and 3.13. The behavioural rubric, which needs a model and a person, is in [`docs/EVALS.md`](docs/EVALS.md).
+The evals generate a harness from each fixture (agency, solo master, in-house research, minimal). They plant problems in each one and confirm the right sensor fires, and confirm each generated harness's own evals pass and catch a planted break (a disabled write guard). They also check the scaffold's safety promises and that the README visuals are rebuilt from source. CI runs them on Python 3.9 and 3.13. The behavioural rubric, which needs a model and a person, is in [`docs/EVALS.md`](docs/EVALS.md).
 
 ## What it doesn't do
 

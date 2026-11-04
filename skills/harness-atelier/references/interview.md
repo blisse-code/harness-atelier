@@ -55,6 +55,8 @@ If they have two reference projects (one research-only, one research plus design
 | Who signs off, in what order? Can a later gate's feedback skip back? | The approval chain and the loop-back rule | `approval_chain` |
 | What do reviewers catch again and again? | Each repeat becomes a gate criterion or a sensor | `known_failures`, then the rubric |
 | How do you know a deliverable is ready to show? | Done-criteria per deliverable kind | `stages[].done_when` |
+| Which mistakes, if they reached a client, would hurt most? Which rules should be checked every time, not just once? | Each becomes an eval case (`evals/`), so the harness proves it still holds after every change | `known_failures`, then `evals/cases.project.json` |
+| Who fixes what the evals find, and when should they run (with each gate run, daily, before internal reviews)? | Sets the eval schedule and owner in `evals/README.md` | `eval_schedule` (free text) |
 | How much autonomy do you want the AI to have: propose only, apply after per-item approval, or act and report? | Sets how skills like `feedback-to-changes` apply changes; lands in `CLAUDE.md` and decision D4 | `autonomy` |
 
 ## Answer → file map

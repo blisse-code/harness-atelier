@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "A Claude skill that builds a working AI harness for designers and design teams.",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "plugins": [
     {

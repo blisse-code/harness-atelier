@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0
+
+- Generated harnesses check themselves: an `evals/` kit (script tests, a behaviour runner with 8 cases run in a sandboxed throwaway copy, a rubric with a row per known failure, a run log) and an `evals` skill that runs them, triages failures and keeps cases fitted to the project.
+- Scaffold adds `evals` to the moves table and a row per interview failure to `evals/EVALS.md`; `verify_harness.py` runs the script evals; the interview asks which mistakes would hurt most and who fixes eval findings.
+- Template fixes found by those evals: intake writes the brief with `[[ASK]]` markers instead of waiting for answers; handover triggers on a stated decision or "I'm stopping"; owner-stated rules are recorded the same turn.
+- Generated dashboard: animated "How this harness works" section (pipeline and check loop, live numbers, Replay, reduced-motion safe).
+- Repo: new animated diagram `evals.svg`; the learning loop gains "a rule stops holding → an eval case"; 83 deterministic evals (was 64).
+
 ## 0.1.0
 
 First public release.

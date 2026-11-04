@@ -48,6 +48,7 @@ The evaluator is a different agent from the one that made the work, on purpose: 
 2. **Then the gate:** the `gate` skill builds a rubric from `docs/gate-rubric.md` plus the current scope, ux-context, rules and open feedback, and hands it to the `evaluator`.
 3. Every finding names its check, cites its evidence (file, frame, element) and carries a severity: **fail** blocks review, **warn** does not. Fail is the default. Only the owner can waive a fail, and the waiver is written into `records/gate-log.md`.
 4. Never say a check passed unless it ran. Say exactly what ran and what could not be checked.
+5. **Evals check the harness itself** (`evals/`, the `evals` skill): its scripts, whether you follow these rules every time, and whether the gate judges right. They run with the gate, before every internal review, and after any change to a skill, this file, a script or the rubric. A failure becomes a task; it closes only when the check passes again 3 of 3.
 
 ## Approval chain
 
@@ -58,6 +59,8 @@ The evaluator is a different agent from the one that made the work, on purpose: 
 Tasks → `records/tasks.md` · feedback → `records/feedback.md` · change requests → `records/changes.md` · approval rounds → `records/approvals.md` · gate runs → `records/gate-log.md` · deliveries → `records/ships.md` · reusable past work → `records/past-work.md`. Keep headers and status words exactly as written; the checker and dashboard read by column name. Pull before allocating a new ID; on a clash, renumber your own.
 
 ## Learning loop
+
+When the owner states a rule ("from now on…", "always…", "never…"), write it the same turn: a row in `docs/decisions.md` (who, date, basis), and the rule itself where it applies (`CLAUDE.md`, `context/ux-context.md`, a skill or the rubric). Don't wait for confirmation to record what they just told you.
 
 When something goes wrong, the fix is never "be more careful". It is a permanent change to the harness: a rail, a line of memory, or a check. Record the miss and its fix in `docs/evolution.md` and the rule in `docs/decisions.md`. A comment that recurs becomes a rule; a one-off UI that recurs becomes a component; a flag that recurs becomes a sensor.
 
@@ -70,4 +73,4 @@ When something goes wrong, the fix is never "be more careful". It is a permanent
 
 ## Where detail lives
 
-`docs/process.md` (method per stage, sources table) · `docs/gate-rubric.md` (what the gate checks) · `docs/decisions.md` (why each rule exists) · `docs/evolution.md` (failure register, rituals) · `docs/onboarding.md` (setup for a new person) · `dashboard/index.html` (status at a glance; `python3 scripts/build_dashboard.py` refreshes it).
+`docs/process.md` (method per stage, sources table) · `docs/gate-rubric.md` (what the gate checks) · `docs/decisions.md` (why each rule exists) · `docs/evolution.md` (failure register, rituals) · `docs/onboarding.md` (setup for a new person) · `evals/README.md` (how the harness is checked) · `dashboard/index.html` (status at a glance, with an animated "How this harness works"; `python3 scripts/build_dashboard.py` refreshes it).

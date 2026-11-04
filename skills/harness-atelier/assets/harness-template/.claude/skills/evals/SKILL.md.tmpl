@@ -1,0 +1,32 @@
+---
+name: evals
+description: Check that this harness itself works - its scripts, the rules Claude must follow, and whether the gate judges correctly - and keep those checks fitted to this project. Use to run the evals (before every internal review, with the day's gate run, after changing a skill, CLAUDE.md, a script or the rubric), to read and act on results, and to add or update eval cases when scope or rules change, when the owner corrects Claude, when a failure is logged in docs/evolution.md, or when meeting notes add a standing rule. Also when someone asks "are the evals passing", "set up the evals" or "what do the evals check".
+---
+
+# Evals
+
+The gate checks the work; evals check the harness. Read `evals/README.md` once: layers, safety, schedule, after-run steps. Rubric: `evals/EVALS.md`.
+
+## Run them
+1. Layer A (free): `python3 -m unittest discover -s evals/tests -v`.
+2. Layer B (behaviour; tokens): `python3 evals/run.py --log`, or chosen ids with `--runs 1` for a quick check. Runs on the agreed schedule are pre-approved by {{OWNER}}; ask before extra runs.
+3. Layers C and D (gate on seeded work, flows) need the seeded files and the design tool: run them when those exist, and say plainly when they don't.
+
+## Act on results
+For every failure, read the evidence in `evals/results/` before changing anything, then decide which it is:
+- **The eval is wrong:** fix the case and note why in the results file. Never weaken a check just to make it pass.
+- **The harness is wrong:** add a task in `records/tasks.md` with an owner and the evidence; fix the skill, rule or script; re-run that row 3 times.
+- **The gate judged wrongly:** change `docs/gate-rubric.md`, never the planted fixture.
+Tell the owner in plain words what passed, what failed and what was done. A row is closed only when it passes 3 of 3.
+
+## Keep them fitted to this project
+At the start of a project, and whenever scope, rules or the client's facts change:
+1. Read `context/brief.md`, `context/scope.md`, `context/ux-context.md`, `docs/decisions.md`, `docs/evolution.md` and the open feedback.
+2. List what must hold every time: each scope line (an out-of-scope request stops, an in-scope one proceeds), each client or product fact a design must get right (a planted problem for the seeded files), each Committed rule, each logged failure.
+3. Ask the owner only what the records don't answer, with options (use AskUserQuestion): which mistakes would hurt most, which rules to check every time, who fixes eval findings.
+4. Write the cases to `evals/cases.project.json` (same format as `evals/cases.json`, ids starting `P-`) and a row each in `evals/EVALS.md`, section D. Drafts are approved one by one before they're added.
+5. Run the new cases once and report.
+
+## Never
+- Run evals inside a scheduled routine, or against live files, sheets or design files.
+- Say a check passed when it didn't run.

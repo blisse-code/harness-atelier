@@ -209,7 +209,8 @@ def loop() -> str:
             ("One-off UI built twice", "a component in system/"),
             ("A grep could have caught it", "a sensor in harness_check.py"),
             ("Only judgement catches it", "a line in the gate rubric"),
-            ("Someone re-explains context", "a line in the brief or ux-context")]
+            ("Someone re-explains context", "a line in the brief or ux-context"),
+            ("A rule quietly stops holding", "an eval case, re-run until 3 of 3")]
     period = 12.5
     each = period / len(rows)
     rws = []
@@ -245,14 +246,59 @@ def loop() -> str:
 <text x="420" y="56" class="h">The learning loop</text>
 {''.join(rws)}
 """
-    return svg(1200, 360, "The learning loop: every miss becomes a permanent fix",
+    return svg(1200, 390, "The learning loop: every miss becomes a permanent fix",
                "A rotating loop labelled 'a miss becomes a fix, not a reminder' beside five rows that light up in turn: "
                "a repeated comment becomes a rule, a repeated one-off UI a component, a greppable problem a sensor, "
-               "a judgement problem a rubric line, and re-explained context a line in the brief.", style, body)
+               "a judgement problem a rubric line, re-explained context a line in the brief, and a rule that stops holding an eval case.", style, body)
+
+
+# ------------------------------------------------------------------ evals: the harness checks itself
+def evals() -> str:
+    rows = [("Scripts", "sensors, guard, records and dashboard give the right result", "free, seconds"),
+            ("Behaviour", "Claude follows the rules in a throwaway copy, 3 runs each", "a few dollars"),
+            ("Gate", "catches planted problems; invents none on a clean copy", "per project"),
+            ("Flows", "no unlinked boxes, no dead ends, labelled branches", "per project")]
+    period = 10.0
+    dots, labels = [], []
+    for r, (name, what, cost) in enumerate(rows):
+        y = 124 + r * 58
+        labels.append(f'<text x="56" y="{y}" class="name">{name}</text>'
+                      f'<text x="56" y="{y + 20}" class="what muted">{what}</text>'
+                      f'<text x="1144" y="{y + 10}" text-anchor="end" class="cost muted">{cost}</text>')
+        for k in range(3):
+            d = r * 0.9 + k * 0.45
+            anim = "flip" if (r, k) == (1, 1) else "pass"
+            dots.append(f'<circle cx="{780 + k * 44}" cy="{y + 4}" r="13" class="dot" style="animation-name:{anim};animation-delay:{d:.2f}s"/>')
+    style = f"""
+  .h {{ font-size:22px; font-weight:700; }}
+  .sub {{ font-size:14px; }}
+  .name {{ font-size:18px; font-weight:700; }}
+  .what {{ font-size:14px; }}
+  .cost {{ font-size:13px; }}
+  .runs {{ font-size:13px; }}
+  .dot {{ fill:var(--ok); animation-duration:{period}s; animation-iteration-count:infinite; animation-fill-mode:backwards; }}
+  .note {{ font-size:13px; fill:var(--fail); opacity:0; animation: note {period}s ease-in-out infinite; animation-delay:1.35s; }}
+  @keyframes pass {{ 0% {{ fill:var(--line); }} 8% {{ fill:var(--ok); }} 100% {{ fill:var(--ok); }} }}
+  @keyframes flip {{ 0% {{ fill:var(--line); }} 8% {{ fill:var(--fail); }} 40% {{ fill:var(--fail); }} 48% {{ fill:var(--ok); }} 100% {{ fill:var(--ok); }} }}
+  @keyframes note {{ 0% {{ opacity:0; }} 8% {{ opacity:1; }} 40% {{ opacity:1; }} 48% {{ opacity:0; }} 100% {{ opacity:0; }} }}
+"""
+    body = f"""
+<text x="56" y="56" class="h">The harness checks itself</text>
+<text x="56" y="80" class="sub muted">The gate checks the work. Evals check the harness: a rule only counts as holding at 3 of 3 runs.</text>
+<text x="824" y="96" text-anchor="middle" class="runs muted">run 1 · 2 · 3</text>
+{''.join(labels)}
+{''.join(dots)}
+<text x="824" y="226" text-anchor="middle" class="note">fails → becomes a task → fixed → re-run</text>
+<text x="56" y="370" class="sub muted">Every miss in the failure register and every rule the owner adds gets a case. Nothing fixes itself: a failure is a task with an owner.</text>
+"""
+    return svg(1200, 400, "The harness checks itself: evals in four layers",
+               "Four rows, Scripts, Behaviour, Gate and Flows, each with three run dots that turn green in turn. One behaviour run "
+               "turns red first, is labelled 'fails, becomes a task, fixed, re-run', then turns green: a rule counts as holding "
+               "only at three passes out of three.", style, body)
 
 
 def main() -> None:
-    for name, fn in [("hero", hero), ("workflow", workflow), ("checks", checks), ("loop", loop)]:
+    for name, fn in [("hero", hero), ("workflow", workflow), ("checks", checks), ("loop", loop), ("evals", evals)]:
         (OUT / f"{name}.svg").write_text(fn(), encoding="utf-8")
         print(f"wrote docs/visuals/{name}.svg")
 

@@ -59,6 +59,22 @@ def fixture_suite(cfg_path: Path, tmp: Path) -> None:
     check(f"{tag}: verify passes with no PROBLEM lines", code == 0 and "PROBLEM" not in txt, txt[-400:])
     check(f"{tag}: fresh harness has zero sensor fails", "0 fail(s)" in txt, txt[-300:])
 
+    # The generated harness checks itself: eval kit present, its script evals pass, and they catch a planted break.
+    kit = ["evals/README.md", "evals/EVALS.md", "evals/run.py", "evals/cases.json", "evals/tests/test_harness.py",
+           ".claude/skills/evals/SKILL.md"]
+    check(f"{tag}: eval kit and evals skill generated", all((out / f).exists() for f in kit),
+          str([f for f in kit if not (out / f).exists()]))
+    code, txt = run([sys.executable, "-m", "unittest", "discover", "-s", "evals/tests"], cwd=out)
+    check(f"{tag}: generated script evals pass", code == 0, txt[-300:])
+    json.loads((out / "evals" / "cases.json").read_text())
+    check(f"{tag}: dashboard has the animated 'How this harness works'",
+          "how-box" in (out / "dashboard" / "index.html").read_text())
+    broken = tmp / (tag + "-broken")
+    shutil.copytree(out, broken)
+    (broken / ".claude" / "hooks" / "confidential_guard.py").write_text("import sys\nsys.exit(0)\n")
+    code, txt = run([sys.executable, "-m", "unittest", "discover", "-s", "evals/tests"], cwd=broken)
+    check(f"{tag}: generated evals catch a disabled guard", code != 0 and "A3" in txt, txt[-300:])
+
     code, txt = run([sys.executable, SCAFFOLD, "--config", cfg_path, "--out", out])
     check(f"{tag}: re-running never overwrites", json.loads(txt)["written"] == 0)
 
